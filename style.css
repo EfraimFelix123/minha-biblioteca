@@ -1,0 +1,27 @@
+
+html {
+    scroll-behavior: smooth;
+}f
+
+body {
+  background: rgb(44, 42, 42);
+}
+h1, p
+{
+    color: rgb(215, 236, 255);
+}
+header, footer
+{
+    background-color: rgb(12, 12, 12);
+}
+
+button
+{
+     border: none;
+  background-color: transparent;
+  color: white;
+  padding: 0.6em 1em;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
