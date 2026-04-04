@@ -1,9 +1,14 @@
 
 html {
+    
     scroll-behavior: smooth;
-}f
+    background-color: rgb(92, 92, 92);
+}
 
 body {
+    width: 100%;
+      margin: 0%;
+     padding: 0%;
   background: rgb(44, 42, 42);
 }
 h1, p
@@ -12,7 +17,10 @@ h1, p
 }
 header, footer
 {
+    
     background-color: rgb(12, 12, 12);
+   
+    /*  width: 1000px;  */
 }
 
 button
