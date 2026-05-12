@@ -1,9 +1,25 @@
 
+
+* 
+{
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 html {
-  
     scroll-behavior: smooth;
     background-color: rgb(92, 92, 92);
   
+}
+:root
+{
+    --background1: #101010;
+    --background2: #1f1f1f;
+    --background3: #252424;
+    --background4: #1f699a;
+
 }
 html h1, p
 {
@@ -27,7 +43,8 @@ header
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    background-color: rgb(12, 12, 12);
+    min-height: 80px;
+    background-color: var(--background1)
    
     /*  width: 1000px;  */
 }
@@ -37,7 +54,7 @@ main
     display: flex;
     justify-content: flex-end;
     flex-direction: column-reverse;
-     margin:  20px;
+    margin:  20px;
     flex: 1;
 }
 
@@ -45,8 +62,9 @@ footer {
      display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 80px; 
     padding: 0 20px;
-    background-color: rgb(12, 12, 12);   
+    background-color: var(--background1);
     align-content: flex-end;
 }
 
@@ -61,10 +79,13 @@ footer {
     transition: transform 0.1s ease;
 }
 .adicionarJogos {
-     background: rgb(38, 36, 36);
+    display: flex;
+    flex-direction: column-reverse;
+
+    background-color: var(--background3);
     width: 100%;
-    min-height: 100px;
-    height: 15vw;
+    
+    height: 200px;
     
          
 }
@@ -74,16 +95,23 @@ footer {
 
      background: rgb(0, 0, 0);
     display: flex;
-    border: none;
+    justify-content: center;
+    min-width: 256px;
     height: 87%;
-    width: 25%;
+    width: 33%;
     margin: 10px;
     
 }
+main > .jogos > .titulos
+{ 
+    display: flex;
+    justify-content: center;
+    background-color: var(--background4);
+    order: 1;
+}
+
 .adicionarJogos > button > p
 {
-
+    font-size: 100px;
     color: aqua;
-    
-    
 }
