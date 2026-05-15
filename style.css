@@ -123,6 +123,8 @@ footer {
 }
 .janelaJogos
 {
+    display: flex;
+    flex-direction: column;
     height: 50vw;
     background-color: var(--background3);
     margin: 5%;
@@ -144,24 +146,27 @@ footer {
     background-color: var(--background4);
 
 }
-.janelaJogos > div button, input, select
+.janelaJogos input, select
 {
-    
-    max-width: 320px;
-    width: 100%;
+
+    width: 24%;
 }
 
-.janelaJogos button p
+.janelaJogos .botoes p
 {
     color:  var(--background5);
 
 }
-.janelaJogos > button
+.janelaJogos .botoes
 {
     
+    
     display: flex;
-    flex-direction: column;
-    
-    
+    margin-top: auto;
+    justify-content: space-between;
+}
+.janelaJogos button
+{
+    width: 40%;
 }
 
