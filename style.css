@@ -2,6 +2,7 @@
 /* configurações globais */
 * 
 {
+     box-sizing: border-box;
     border: none;
     margin: 0;
     padding: 0;
@@ -124,45 +125,67 @@ footer {
 .janelaJogos
 {
     display: flex;
+    position: fixed;
+    justify-content: center;
+    box-shadow: #101010;
     flex-direction: column;
-    height: 50vw;
+    border: 0;
+    height: 80%;
+    width: 80%;
+   
     background-color: var(--background3);
-    margin: 5%;
-
+       
 }
-.janelaJogos > div
+.janelaJogos > .janelinha
 {
-    margin: 10px;
-    gap: 10px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    padding: 10px;
+    gap: 10px;  
+    
+    
+}
+.capaJogo
+{
+    width: 30%;
+    object-fit: cover;
     
 }
 .janelaJogos h2
 {
     display: flex;
     justify-content: center;
+    max-height: 40px;
     width: 100%;
     background-color: var(--background4);
 
 }
-.janelaJogos input, select
+.janelaJogos input, .janelaJogos select
 {
-
+    display: flex;
+    
+    max-height: 30px;
     width: 24%;
 }
 
-.janelaJogos .botoes p
+.janelaJogos .botoes button
 {
-    color:  var(--background5);
+    
+    color: var(--background5);
+    max-height: 30px;
+    height: 100%;
 
 }
-.janelaJogos .botoes
+.janelaJogos > .botoes
 {
-    
+   
+    min-height: 20px;
     
     display: flex;
-    margin-top: auto;
+    align-items: flex-end;
     justify-content: space-between;
 }
 .janelaJogos button
