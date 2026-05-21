@@ -102,6 +102,7 @@ footer {
     background-color: var(--background3);
     width: 100%;
     height: 200px;
+    min-width: 50%;
     
          
 }
@@ -126,7 +127,7 @@ footer {
     margin: 0;
     color: aqua;
 }
-.janelaJogos
+.janelaAdicionar
 {
     top: 50%;
     left: 50%;
@@ -148,10 +149,9 @@ footer {
     background-color: var(--background3);
        
 }
-.janelaJogos > .janelinha
+.janelaAdicionar > .janelinha
 {
     display: flex;
-    
     flex-direction: row;
     width: 100%;
    
@@ -168,7 +168,7 @@ footer {
    
     
 }
-.janelaJogos h2
+.janelaAdicionar h2
 {
     display: flex;
     justify-content: center;
@@ -199,7 +199,7 @@ footer {
     height: 50%;
 }
 
-.janelaJogos .botoes button
+.janelaAdicionar .botoes button
 {
     
     color: var(--background5);
@@ -208,7 +208,7 @@ footer {
     height: 100%;
 
 }
-.janelaJogos > .botoes
+.janelaAdicionar > .botoes
 {
    
     min-height: 20px;
@@ -218,14 +218,14 @@ footer {
     align-items: flex-end;
     justify-content: space-around;
 }
-.janelaJogos > .janelinha > img
+.janelaAdicionar > .janelinha > img
 {
     min-height: 300px;
   height: 50%;
   min-width: 300px;
 }
 
-.janelaJogos button
+.janelaAdicionar button
 {
     width: 40%;
 }
@@ -234,11 +234,10 @@ footer {
 
 @media(max-width: 1080px)
 {
-    .janelaJogos > .janelinha
+    .janelaAdicionar > .janelinha
     {
         display: flex;
         align-items: center;
-    
         flex-direction: column;
         
     }
@@ -255,4 +254,114 @@ footer {
 }
    
 
+}
+/*  O VISUAL DO CARTÃO DO JOGO  */
+.cartaoJogo {
+    display: flex;
+    flex-direction: column;
+    background-image: url(tiny.png);
+    background-size: cover;
+    background-position: center;
+    min-width: 256px;
+    width: 33%;
+    height: 87%; 
+    margin: 10px;
+    border-radius: 8px; 
+    overflow: hidden; 
+    position: relative; 
+}
+
+
+.cartaoJogo img {
+    width: 100%;
+    height: 70%; 
+    object-fit: cover;
+}
+
+.cartaoJogo .info-cartao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    padding: 5px;
+    
+    transform: translate(-50, -50);
+}
+
+.cartaoJogo h3 {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.cartaoJogo .etiqueta-status {
+    background-color: var(--background4);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+.cartaoJogo button
+{
+    background: none;
+    width: 100%;
+    height: 100%;
+}
+
+/*JANELA DO CARTÃO DO JOGO */
+
+.exibirCartaoJogo{
+    
+    
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,  -50%);
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    
+    width: 50%;
+    min-width: 320px;
+    min-height: 320px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 100vmax rgba(62, 61, 61, 0.8);
+    z-index: 999;
+    border: 0;
+
+  
+    background-color: var(--background3);
+
+}
+.infoJanelaCartaoJogo
+{
+    gap: 10px;
+    
+    padding: 10px 10px 10px 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+   
+}
+.exibirCartaoJogo h3
+{
+    display: flex;
+    justify-content: center;
+    
+    max-height: 40px;
+    height: 35px;
+    width: 100%;
+    background-color: var(--background4);
+}
+
+.exibirCartaoJogo > .infoJanelaCartaoJogo > .tagsJECJ
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    
 }
