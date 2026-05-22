@@ -18,6 +18,8 @@
     --background3: #252424;
     --background4: #1f699a;
     --background5: #6c6c6c;
+    --background6: #ebebeb;
+    
 
 }
 
@@ -193,8 +195,6 @@ footer {
 }
 .inputs
 {
-   
-    
     width: 100%;
     height: 50%;
 }
@@ -203,7 +203,7 @@ footer {
 {
     
     color: var(--background5);
-    
+
     max-height: 30px;
     height: 100%;
 
@@ -229,37 +229,11 @@ footer {
 {
     width: 40%;
 }
-
-/*RESPONSIVIDADE*/
-
-@media(max-width: 1080px)
-{
-    .janelaAdicionar > .janelinha
-    {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        
-    }
-    
-.inputs input, .inputs select
-{
-
-    min-height: 40px;
-    
-    display: flex;
-    width: 100%;
-
-    
-}
-   
-
-}
 /*  O VISUAL DO CARTÃO DO JOGO  */
 .cartaoJogo {
     display: flex;
     flex-direction: column;
-    background-image: url(tiny.png);
+    background-image: url(prina.png);
     background-size: cover;
     background-position: center;
     min-width: 256px;
@@ -316,34 +290,33 @@ footer {
     
     
 
-    top: 50%;
+     top: 50%;
     left: 50%;
     transform: translate(-50%,  -50%);
     display: flex;
     position: fixed;
-    flex-direction: column;
-    
+    justify-content: center;
     width: 50%;
     min-width: 320px;
     min-height: 320px;
+
     border-radius: 8px;
     box-shadow: 0 0 0 100vmax rgba(62, 61, 61, 0.8);
     z-index: 999;
+    flex-direction: column;
     border: 0;
-
   
-    background-color: var(--background3);
+    background-color: var(--background3);   
 
 }
 .infoJanelaCartaoJogo
 {
-    gap: 10px;
-    
-    padding: 10px 10px 10px 10px;
-    padding-right: 10px;
-    display: flex;
-    justify-content: space-between;
+     display: flex;
+    flex-direction: row;
     width: 100%;
+   min-width: 300px;
+    padding: 10px;
+    gap: 15px;  
    
 }
 .exibirCartaoJogo h3
@@ -355,13 +328,75 @@ footer {
     height: 35px;
     width: 100%;
     background-color: var(--background4);
+    
 }
 
 .exibirCartaoJogo > .infoJanelaCartaoJogo > .tagsJECJ
 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    width: 100%;
     gap: 10px;
     
+}.infoJanelaCartaoJogo img
+{
+     object-fit: cover;
+    min-height: 300px;
+  height: 00%;
+  min-width: 300px;
+}
+.infoJanelaCartaoJogo p, .infoJanelaCartaoJogo span
+{
+    padding: 0 0 0 10px;
+    color: #101010;
+    background-color: var(--background6);
+    width: 100%;
+    
+}
+.infoJanelaCartaoJogo > .tagsJECJ > p > .destacarTagsJECJ, .e
+{
+    color: red;
+    padding: 0;
+}
+
+
+
+
+/*RESPONSIVIDADE*/
+
+@media(max-width: 1080px)
+{
+    .janelaAdicionar > .janelinha
+    {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        
+    }
+    .exibirCartaoJogo > .infoJanelaCartaoJogo
+    {
+         display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        
+    }
+    .exibirCartaoJogo
+    {
+        /* A janela ocupa quase tudo, a "barreira" agora é de apenas 5% de cada lado */
+      
+    }
+    
+.inputs input, .inputs select
+{
+
+    min-height: 40px;
+    
+    display: flex;
+    width: 100%;
+
+    
+}
+   
+
 }

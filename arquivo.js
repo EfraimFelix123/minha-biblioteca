@@ -62,18 +62,24 @@ salvar.addEventListener("click", function() {
         <div class="exibirCartaoJogo">
         <h3>${tituloDigitado}</h3>
             <div class="infoJanelaCartaoJogo">
-                 <img class = "imagemJECJ" src = "tiny.png"></img>
+                <img class = "imagemJECJ" src = "prina.png"></img>
                 <div class = "tagsJECJ"> 
-                    <span class="etiqueta-status">${statusEscolhido}</span>
-                    <p>${descricaoDigitado}</p>
-                    <p>${numeroEscolhido}</p> 
+                    <p><span class = "destacarTagsJECJ">STATUS:</span> ${statusEscolhido}</p>
+                    <p><span class = "destacarTagsJECJ">DESCRIÇÃO:</span> ${descricaoDigitado}</p>
+                    <p><span class = "destacarTagsJECJ">NOTA: </span> ${numeroEscolhido}</p> 
                 </div>
+            </div>
+             <div class = "botoesECJ">
+                <button id = "btnSalvarECJ"> salvar </button>
+                <button id = "btnCancelarECJ">cancelar</button>
             </div>
         </div>
     `;
+
     
-     document.body.insertAdjacentHTML('beforebegin', JanelaExibirCartaoJogo);
-    if (JanelaExibirCartaoJogo != null)
+    
+     document.body.insertAdjacentHTML('afterbegin', JanelaExibirCartaoJogo);
+    if (JanelaExibirCartaoJogo)
     {
         console.log("pegou essa porra");
 
@@ -89,11 +95,35 @@ salvar.addEventListener("click", function() {
     console.log("Título do jogo salvo:", tituloDigitado);
     console.log("Status do jogo salvo:", statusEscolhido);
     console.log("Número do jogo salvo:", numeroEscolhido);
+    //botaoMais.style.display = 'none';
     
     janelaJogos.style.display = 'none';
 
 
+
 });
+
+//botões "salvar" e "cancelar" de exibirCartaoJogo
+document.addEventListener("click", (event) => {
+    const btnSalvarECJ = document.getElementById("btnSalvarECJ");
+    const btnCancelarECJ = document.getElementById("btnCancelarECJ");
+    const exibirCartaoJogo = document.querySelector(".exibirCartaoJogo");
+
+    if (event.target.id === "btnSalvarECJ")
+    {
+        //modificar os select e inputs 
+        alert("renner");
+
+    }
+    if (event.target.id === "btnCancelarECJ")
+    {
+        exibirCartaoJogo.style.display = 'none';
+
+
+    }
+});
+
+
 
 
 //button "cancelar" de janelaJogos
