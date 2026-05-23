@@ -199,7 +199,7 @@ footer {
     height: 50%;
 }
 
-.janelaAdicionar .botoes button
+.janelaAdicionar > .botoes button
 {
     
     color: var(--background5);
@@ -336,9 +336,15 @@ footer {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 10px;
     
-}.infoJanelaCartaoJogo img
+    
+}
+.exibirCartaoJogo > .infoJanelaCartaoJogo > .tagsJECJ > p, .tagsJECJ input, .tagsJECJ select
+{
+    margin-bottom: 10px;    
+}
+
+.infoJanelaCartaoJogo img
 {
      object-fit: cover;
     min-height: 300px;
@@ -353,12 +359,28 @@ footer {
     width: 100%;
     
 }
-.infoJanelaCartaoJogo > .tagsJECJ > p > .destacarTagsJECJ, .e
+.infoJanelaCartaoJogo > .tagsJECJ > .destacarTagsJECJ
 {
-    color: red;
+    display: flex;
+    justify-content: center;
+    background-color: var(--background4);
     padding: 0;
 }
-
+.botoesECJ
+{
+      min-height: 20px;
+    padding-bottom: 10px;
+    padding-top: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    
+}
+.botoesECJ > button
+{
+   
+   width: 40%;
+}
 
 
 
@@ -378,14 +400,15 @@ footer {
          display: flex;
         align-items: center;
         flex-direction: column;
-        width: 100%;
+        
         
     }
-    .exibirCartaoJogo
+    .infoJanelaCartaoJogo img
     {
-        /* A janela ocupa quase tudo, a "barreira" agora é de apenas 5% de cada lado */
-      
+        max-width: 200px;
     }
+    
+   
     
 .inputs input, .inputs select
 {

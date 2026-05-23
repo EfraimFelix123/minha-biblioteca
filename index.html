@@ -5,22 +5,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Minha Biblioteca De Jogos</title>
         <link rel="stylesheet" href="style.css">
-        
     </head>
+
     <body>
         
         <header>
+
             <h1>Minha Biblioteca De Jogos 🎮</h1> 
+
             <nav id = "botoes" class="botoes"> 
                 <a href="#footer" class="btn-estilizado">Informações</a>
                 <a href="#login" class="btn-estilizado">Login</a>
-            </nav>        
+            </nav>  
+
         </header>
 
         <main>
-          
-            
-
             <section class = "jogos">
                 <div class = "titulos">
                     <h1> JOGOS</h1>
@@ -31,19 +31,17 @@
                     </button>   
                 </article>
             </section>    
-            
         </main>
     
         <footer id = "footer">  
             <p> Rodapé. Informações sobre o site e tals </p> 
-         </footer>
+        </footer>
      
       
 
         <div class = "janelaAdicionar">
-               <h2> adicione o jogo</h2>
-            
-             
+            <h2> adicione o jogo</h2>
+        
             <div class = "janelinha">
                 
              
@@ -52,8 +50,8 @@
                 <div class="inputs">
                     <input type="text" id = "titulo" placeholder="Título">
                     <input type="text" id = "descricao" placeholder="descrição">
-    
-                    <select name = "status" id = "status">
+
+                    <select name = "status" class = "status">
                         <option selected disabled> status </option>
                         <option value = "jogado"> Jogado </option>
                         <option value = "jogando">Jogando </option>
@@ -61,31 +59,23 @@
                         <option value = "interesse"> Tenho interesse </option>
                     </select>
 
-                    <select id = "numeros">
+                    <select class = "numeros">
                         <option selected disabled> nota </option>
                     </select>
 
                 </div>
-               
-
-              
+            
             </div>
 
             <div class = "botoes">
                 <button id = "btn-salvar-janelaJogos"> salvar </button>
                 <button id = "btn-cancelar-janelaJogos">cancelar</button>
             </div>
-            
-             
-           
+
         </div>
-        
 
-        
           <script src="arquivo.js"></script>
+
     </body>
-    
 
-    
-
-    </html>
+</html>
