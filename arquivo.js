@@ -1,12 +1,22 @@
-
 //constantes e valores
 const selectNumeros = document.querySelector(".numeros");
 const selectStatus = document.querySelector(".status");
 const inputDescricao = document.getElementById("descricao");
-const botaoMais = document.getElementById("btn-mais");
+const botaoMais = document.querySelector(".btn-mais");
 const inputTitulo = document.getElementById("titulo");
 const salvar = document.getElementById("btn-salvar-janelaJogos");
 const janelaJogos = document.querySelector(".janelaAdicionar");
+const exibirCartaoJogo = document.querySelector(".exibirCartaoJogo");
+
+const jogando = document.querySelector(".jogando");
+const botaoJogando = jogando.querySelector(".btn-mais");
+const abandonado = document.querySelector(".abandonado");
+const botaoAbandonado = abandonado.querySelector(".btn-mais");
+const jogado = document.querySelector(".jogado");
+const botaoJogado = jogado.querySelector(".btn-mais");
+const tenhoInteresse = document.querySelector(".tenhoInteresse");
+const botaoTenhoInteresse = tenhoInteresse.querySelector(".btn-mais");
+
 let salvouNumeros = false;
 let salvoClicou = false;
 
@@ -21,44 +31,41 @@ for(let i = 1; i<=10; i++)
     option.value = i;
     selectNumeros.appendChild(option);
 }
-
-//button "salvar"
-janelaJogos.style.display = 'none';
 salvar.addEventListener("click", function() {
-    //futuramente irei utilizar a lógica para salvar os elementos
-    salvoClicou = true;
     
-
-
-
+    // 1. COLETAMOS OS DADOS
     let tituloDigitado = inputTitulo.value;
     let descricaoDigitado = inputDescricao.value;
     let statusEscolhido = selectStatus.value;
     let numeroEscolhido = selectNumeros.value;
 
-    const novoCartaoHTML = `
-        <div class="cartaoJogo">
-            <button class="botaoCartaoJogo"></button>
-            <div class="info-cartao">
-                <h3>${tituloDigitado}</h3>
-                <span class="etiqueta-status">${statusEscolhido}</span>
-            </div>
-        </div>
-    `;
-
-    botaoMais.insertAdjacentHTML('beforebegin', novoCartaoHTML);
-
-  
-
-//janela nova
-    const cartaoRecemCriado = botaoMais.previousElementSibling;
-    const botaoCartaoJogo = cartaoRecemCriado.querySelector(".botaoCartaoJogo");
-    const cartaoJogo = document.getElementById("cartaoJogo");
-
-    botaoCartaoJogo.addEventListener("click", function(){
+    // ====================================================================
+    // 2. A NOSSA FÁBRICA DE CARTÕES (A MÁGICA ACONTECE AQUI)
+    // Essa função recebe o botão alvo (ex: botaoMais, botaoJogado) como parâmetro
+    // ====================================================================
+    function fabricarCartao(botaoDestino) {
         
-    const JanelaExibirCartaoJogo = `
-      <div class="exibirCartaoJogo">
+        // Imprime o visual
+        let novoCartaoHTML = `
+            <div class="cartaoJogo">
+                <button class="botaoCartaoJogo"></button>
+                <div class="info-cartao">
+                    <h3>${tituloDigitado}</h3>
+                    <span class="etiqueta-status">${statusEscolhido}</span>
+                </div>
+            </div>
+        `;
+        botaoDestino.insertAdjacentHTML('beforebegin', novoCartaoHTML);
+
+        // Pega o cartão específico que acabou de nascer NESTE destino
+        const cartaoRecemCriado = botaoDestino.previousElementSibling;
+        const botaoCartaoJogo = cartaoRecemCriado.querySelector(".botaoCartaoJogo");
+
+        // Coloca o "chip" de clique NESTE cartão
+        botaoCartaoJogo.addEventListener("click", function(){
+            
+            const JanelaExibirCartaoJogo = `
+                <div class="exibirCartaoJogo">
                 <h3>${tituloDigitado}</h3>
                 <div class="infoJanelaCartaoJogo">
                     <img class="imagemJECJ" src="prina.png">
@@ -77,6 +84,8 @@ salvar.addEventListener("click", function() {
 
                         <span class="destacarTagsJECJ">NOTA</span>
                         <input type="number" class="numerosJECJ" value="${numeroEscolhido}" min="1" max="10">
+
+                        <button class = "btnExcluir"> excluir </button>
                     </div>
                 </div>
 
@@ -85,59 +94,69 @@ salvar.addEventListener("click", function() {
                     <button class="btnCancelarECJ">Cancelar</button>
                 </div>
             </div>
-    `;
+            `;
 
-    
-    
-    document.body.insertAdjacentHTML('beforeend', JanelaExibirCartaoJogo);
+            document.body.insertAdjacentHTML('beforeend', JanelaExibirCartaoJogo);
 
-    const modalAtual = document.body.lastElementChild;
-    const btnSalvarModal = modalAtual.querySelector(".btnSalvarECJ");
-    const btnCancelarModal = modalAtual.querySelector(".btnCancelarECJ");
+            const modalAtual = document.body.lastElementChild;
+            const btnExcluir = modalAtual.querySelector(".btnExcluir");
+            const btnSalvarModal = modalAtual.querySelector(".btnSalvarECJ");
+            const btnCancelarModal = modalAtual.querySelector(".btnCancelarECJ");
 
-    btnSalvarModal.addEventListener("click", function() {
-    descricaoDigitado = modalAtual.querySelector(".descricaoInputECJ").value;
-    statusEscolhido = modalAtual.querySelector(".statusJECJ").value;
-    numeroEscolhido = modalAtual.querySelector(".numerosJECJ").value;
+            btnExcluir.addEventListener("click", function(){
+                modalAtual.remove();
+                cartaoRecemCriado.remove();
+            });
 
-    cartaoRecemCriado.querySelector(".etiqueta-status").textContent = statusEscolhido;
-    modalAtual.remove();
+            btnSalvarModal.addEventListener("click", function() {
+                // Atualiza visualmente
+                statusEscolhido = modalAtual.querySelector(".statusJECJ").value;
+                cartaoRecemCriado.querySelector(".etiqueta-status").textContent = statusEscolhido;
+                modalAtual.remove();
+            });
 
-    });
+            btnCancelarModal.addEventListener("click", function(){
+                modalAtual.remove();
+            });
+        });
+    }
+    // ====================================================================
 
-    btnCancelarModal.addEventListener("click", function(){
+    // 3. AGORA NÓS LIGAMOS A MÁQUINA ONDE QUISERMOS!
 
-        modalAtual.style.display = 'none';
-    });
+    // Cria o cartão sempre no backlog principal
+    fabricarCartao(botaoMais);
 
-    });
-    /*
-    inputTitulo.value = '';
-    inputDescricao.value = '';
-    selectStatus.selectedIndex = 0; 
-    selectNumeros.selectedIndex = 0; 
-    */
+    // Cria a cópia do cartão na área correspondente
+    if (statusEscolhido == "jogado") {
+        fabricarCartao(botaoJogado);
+    } 
+    else if (statusEscolhido == "abandonado") {
+        fabricarCartao(botaoAbandonado);
+    } 
+    else if (statusEscolhido == "jogando") {
+        fabricarCartao(botaoJogando);
+    } 
+    else if (statusEscolhido == "interesse") {
+        fabricarCartao(botaoTenhoInteresse);
+    }
 
-    console.log("Descrição do jogo salva:", descricaoDigitado);
-    console.log("Título do jogo salvo:", tituloDigitado);
-    console.log("Status do jogo salvo:", statusEscolhido);
-    console.log("Número do jogo salvo:", numeroEscolhido);
-    //botaoMais.style.display = 'none';
+    // 4. Limpa e fecha a janela inicial
     inputTitulo.value = '';
     inputDescricao.value = '';
     selectStatus.selectedIndex = 0; 
     selectNumeros.selectedIndex = 0; 
     janelaJogos.style.display = 'none';
 
-
-
 });
+
+//button "salvar"
+janelaJogos.style.display = 'none';
 
 //delegações
 document.addEventListener("click", (event) => {
     const btnSalvarECJ = document.getElementById("btnSalvarECJ");
     const btnCancelarECJ = document.getElementById("btnCancelarECJ");
-    const exibirCartaoJogo = document.querySelector(".exibirCartaoJogo");
     const selectNumeros = document.getElementById("numerosJECJ");
     const descricaoInputECJ = document.getElementById("descricaoInputECJ");
     
@@ -197,7 +216,7 @@ buttonCancelarJanelaJogos.addEventListener("click", function(){
 });
 
 //button "mais" de janelaJogos
-const mais = document.getElementById ("btn-mais");
+const mais = document.querySelector (".btn-mais");
 mais.addEventListener("click", function(){
     janelaJogos.style.display = 'block';
 });
