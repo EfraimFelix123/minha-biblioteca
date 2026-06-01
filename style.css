@@ -67,6 +67,7 @@ main
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
+   
     margin:  20px;
     flex: 1;
 }
@@ -294,9 +295,15 @@ footer {
 }
 
 /*JOGANDO*/
-.jogando button, .abandonado button, .jogado button, .tenhoInteresse button
-{
+.jogando .btn-mais, 
+.abandonado .btn-mais, 
+.jogado .btn-mais, 
+.tenhoInteresse .btn-mais {
     display: none;
+}
+.jogando, .abandonado, .jogado, .jogos
+{
+     padding-bottom: 30px;
 }
 /*JANELA DO CARTÃO DO JOGO */
 
