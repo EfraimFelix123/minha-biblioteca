@@ -17,6 +17,8 @@ const jogado = document.querySelector(".jogado");
 const botaoJogado = jogado.querySelector(".btn-mais");
 const tenhoInteresse = document.querySelector(".tenhoInteresse");
 const botaoTenhoInteresse = tenhoInteresse.querySelector(".btn-mais");
+const abrirInformacoes = document.querySelector(".exibirCartaoJogo");
+//abrirInformacoes.style.display = 'none';
 
 let salvouNumeros = false;
 let salvoClicou = false;
@@ -50,97 +52,114 @@ salvar.addEventListener("click", function() {
 //função 
 function renderizarTela()
 {
-    document.querySelectorAll(".cartaoJogo").forEach(function(cartao) {
-        cartao.remove();
-    });
-
-    biblioteca.forEach(function(jogo){
-
-        /*document.querySelectorAll(".cartaoJogo").forEach(function(cartao){
-        cartao.remove();
-       }); */
-        let novoCartaoHTML = `
+    const ultimoJogo = biblioteca[biblioteca.length-1];
+    let novoCartaoHTML = `
             <div class="cartaoJogo">
                 <button class="botaoCartaoJogo"></button>
                 <div class="info-cartao">
-                    <h3>${jogo.titulo}</h3>
-                    <span class="etiqueta-status">${jogo.status}</span>
+                    <h3>${ultimoJogo.titulo}</h3>
+                    <span class="etiqueta-status">${ultimoJogo.status}</span>
                 </div>
             </div>
-            `;    
+            `;
 
-            if (jogo.titulo == inputTitulo.value){
-                document.querySelectorAll(".cartaoJogo").forEach(function(cartao){
-                cartao.remove();
-                })
-            }
+            
 
         let estanteDestino;
-        if (jogo.status === "jogando")
+        if (ultimoJogo.status === "jogando")
         {
             estanteDestino = botaoJogando;
 
-        } else if (jogo.status === "jogado")
+        } else if (ultimoJogo.status === "jogado")
         {
             estanteDestino = botaoJogado;
 
-        } else if (jogo.status === "interesse")
+        } else if (ultimoJogo.status === "interesse")
         {
             estanteDestino = botaoTenhoInteresse;
-        } else if (jogo.status === "abandonado")
+        } else if (ultimoJogo.status === "abandonado")
         {
             estanteDestino = botaoAbandonado;
         }
         botaoMais.insertAdjacentHTML("beforebegin", novoCartaoHTML);
         estanteDestino.insertAdjacentHTML("beforebegin", novoCartaoHTML);   
 
-        
 
-        function abrirInfos(){
-
-        const JanelaExibirCartaoJogo = `
-                    <div class="exibirCartaoJogo">
-                    <h3>${jogo.titulo}</h3>
-                    <div class="infoJanelaCartaoJogo">
-                        <img class="imagemJECJ" src="prina.png">
-                        <div class="tagsJECJ"> 
-                            <span class="destacarTagsJECJ">STATUS</span>
-                            <select class="statusJECJ">
-                                <option selected value="${jogo.status}">${jogo.status}</option>
-                                <option value="jogado">Jogado</option>
-                                <option value="jogando">Jogando</option>
-                                <option value="abandonado">Abandonado</option>
-                                <option value="interesse">Tenho interesse</option>
-                            </select>
-
-                            <span class="destacarTagsJECJ">DESCRIÇÃO</span>
-                            <input type="text" class="descricaoInputECJ" value="${jogo.descricao}">
-
-                            <span class="destacarTagsJECJ">NOTA</span>
-                            <input type="number" class="numerosJECJ" value="${jogo.nota}" min="1" max="10">
-
-                            <button class = "btnExcluir"> excluir </button>
-                        </div>
-                    </div>
-
-                    <div class="botoesECJ">
-                        <button class="btnSalvarECJ">Salvar</button>
-                        <button class="btnCancelarECJ">Cancelar</button>
-                    </div>
-                </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', JanelaExibirCartaoJogo);
-        }
-
-    });
         const seila = document.querySelector(".cartaoJogo");
         seila.firstElementChild.addEventListener("click", abrirInfos());
-    
-
-
-    
 }
 
+   
+        
+    function abrirInfos ()
+        {
+            /*  const JanelaExibirCartaoJogo = `
+                        <div class="exibirCartaoJogo">
+                        <h3>${titulo}</h3>
+                        <div class="infoJanelaCartaoJogo">
+                            <img class="imagemJECJ" src="prina.png">
+                            <div class="tagsJECJ"> 
+                                <span class="destacarTagsJECJ">STATUS</span>
+                                <select class="statusJECJ">
+                                    <option selected value="${status}">${status}</option>
+                                    <option value="jogado">Jogado</option>
+                                    <option value="jogando">Jogando</option>
+                                    <option value="abandonado">Abandonado</option>
+                                    <option value="interesse">Tenho interesse</option>
+                                </select>
+
+                                <span class="destacarTagsJECJ">DESCRIÇÃO</span>
+                                <input type="text" class="descricaoInputECJ" value="${descricao}">
+
+                                <span class="destacarTagsJECJ">NOTA</span>
+                                <input type="number" class="numerosJECJ" value="${nota}" min="1" max="10">
+
+                                <button class = "btnExcluir"> excluir </button>
+                            </div>
+                        </div>
+
+                        <div class="botoesECJ">
+                            <button class="btnSalvarECJ">Salvar</button>
+                            <button class="btnCancelarECJ">Cancelar</button>
+                        </div>
+                    </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', JanelaExibirCartaoJogo); const JanelaExibirCartaoJogo = `
+                        <div class="exibirCartaoJogo">
+                        <h3>${titulo}</h3>
+                        <div class="infoJanelaCartaoJogo">
+                            <img class="imagemJECJ" src="prina.png">
+                            <div class="tagsJECJ"> 
+                                <span class="destacarTagsJECJ">STATUS</span>
+                                <select class="statusJECJ">
+                                    <option selected value="${status}">${status}</option>
+                                    <option value="jogado">Jogado</option>
+                                    <option value="jogando">Jogando</option>
+                                    <option value="abandonado">Abandonado</option>
+                                    <option value="interesse">Tenho interesse</option>
+                                </select>
+
+                                <span class="destacarTagsJECJ">DESCRIÇÃO</span>
+                                <input type="text" class="descricaoInputECJ" value="${descricao}">
+
+                                <span class="destacarTagsJECJ">NOTA</span>
+                                <input type="number" class="numerosJECJ" value="${nota}" min="1" max="10">
+
+                                <button class = "btnExcluir"> excluir </button>
+                            </div>
+                        </div>
+
+                        <div class="botoesECJ">
+                            <button class="btnSalvarECJ">Salvar</button>
+                            <button class="btnCancelarECJ">Cancelar</button>
+                        </div>
+                    </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', JanelaExibirCartaoJogo);*/
+            console.log("renner é viado");
+        }
+
+    
 
  
 
