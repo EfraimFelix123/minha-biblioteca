@@ -54,7 +54,7 @@ function renderizarTela()
 {
     const ultimoJogo = biblioteca[biblioteca.length-1];
     let novoCartaoHTML = `
-            <div class="cartaoJogo">
+            <div class="cartaoJogo" data-id="${ultimoJogo.id}>
                 <button class="botaoCartaoJogo"></button>
                 <div class="info-cartao">
                     <h3>${ultimoJogo.titulo}</h3>
@@ -62,8 +62,6 @@ function renderizarTela()
                 </div>
             </div>
             `;
-
-            
 
         let estanteDestino;
         if (ultimoJogo.status === "jogando")
@@ -81,89 +79,18 @@ function renderizarTela()
         {
             estanteDestino = botaoAbandonado;
         }
-        botaoMais.insertAdjacentHTML("beforebegin", novoCartaoHTML);
-        estanteDestino.insertAdjacentHTML("beforebegin", novoCartaoHTML);   
+        botaoMais.insertAdjacentHTML("afterend", novoCartaoHTML);
+        estanteDestino.insertAdjacentHTML("afterend", novoCartaoHTML);   
 
 
-        const seila = document.querySelector(".cartaoJogo");
-        seila.firstElementChild.addEventListener("click", abrirInfos());
+        
+       
 }
 
-   
-        
-    function abrirInfos ()
-        {
-            /*  const JanelaExibirCartaoJogo = `
-                        <div class="exibirCartaoJogo">
-                        <h3>${titulo}</h3>
-                        <div class="infoJanelaCartaoJogo">
-                            <img class="imagemJECJ" src="prina.png">
-                            <div class="tagsJECJ"> 
-                                <span class="destacarTagsJECJ">STATUS</span>
-                                <select class="statusJECJ">
-                                    <option selected value="${status}">${status}</option>
-                                    <option value="jogado">Jogado</option>
-                                    <option value="jogando">Jogando</option>
-                                    <option value="abandonado">Abandonado</option>
-                                    <option value="interesse">Tenho interesse</option>
-                                </select>
-
-                                <span class="destacarTagsJECJ">DESCRIÇÃO</span>
-                                <input type="text" class="descricaoInputECJ" value="${descricao}">
-
-                                <span class="destacarTagsJECJ">NOTA</span>
-                                <input type="number" class="numerosJECJ" value="${nota}" min="1" max="10">
-
-                                <button class = "btnExcluir"> excluir </button>
-                            </div>
-                        </div>
-
-                        <div class="botoesECJ">
-                            <button class="btnSalvarECJ">Salvar</button>
-                            <button class="btnCancelarECJ">Cancelar</button>
-                        </div>
-                    </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', JanelaExibirCartaoJogo); const JanelaExibirCartaoJogo = `
-                        <div class="exibirCartaoJogo">
-                        <h3>${titulo}</h3>
-                        <div class="infoJanelaCartaoJogo">
-                            <img class="imagemJECJ" src="prina.png">
-                            <div class="tagsJECJ"> 
-                                <span class="destacarTagsJECJ">STATUS</span>
-                                <select class="statusJECJ">
-                                    <option selected value="${status}">${status}</option>
-                                    <option value="jogado">Jogado</option>
-                                    <option value="jogando">Jogando</option>
-                                    <option value="abandonado">Abandonado</option>
-                                    <option value="interesse">Tenho interesse</option>
-                                </select>
-
-                                <span class="destacarTagsJECJ">DESCRIÇÃO</span>
-                                <input type="text" class="descricaoInputECJ" value="${descricao}">
-
-                                <span class="destacarTagsJECJ">NOTA</span>
-                                <input type="number" class="numerosJECJ" value="${nota}" min="1" max="10">
-
-                                <button class = "btnExcluir"> excluir </button>
-                            </div>
-                        </div>
-
-                        <div class="botoesECJ">
-                            <button class="btnSalvarECJ">Salvar</button>
-                            <button class="btnCancelarECJ">Cancelar</button>
-                        </div>
-                    </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', JanelaExibirCartaoJogo);*/
-            console.log("renner é viado");
-        }
-
-    
-
- 
-
-
+function abrirInfo()
+{
+    console.log("renner é viado");
+}
 
 //select "numeros"
 for(let i = 1; i<=10; i++)
@@ -184,33 +111,12 @@ document.addEventListener("click", (event) => {
     const btnCancelarECJ = document.getElementById("btnCancelarECJ");
     const selectNumeros = document.getElementById("numerosJECJ");
     const descricaoInputECJ = document.getElementById("descricaoInputECJ");
+    const cartao = event.target.closest(".cartaoJogo");
+
+    if (!cartao) return;
+
+    abrirInfo();
     
-  
-
-    /*
-    if (event.target.id === "btnSalvarECJ")
-    {
-     const descricaoInputECJ = exibirCartaoJogo.querySelector(".descricaoInputECJ");
-        const statusJECJ = exibirCartaoJogo.querySelector(".statusJECJ");
-        const numerosJECJ = exibirCartaoJogo.querySelector(".numerosJECJ");
-        const novaDescricao = descricaoInputECJ.value;
-        const novoStatus = statusJECJ.value;
-        const novaNota = numerosJECJ.value;
-
-        console.log("Descrição salva:", novaDescricao);
-        console.log(descricaoDigitado.value);
-        console.log("Status salvo:", novoStatus);
-        console.log("Nota salva:", novaNota);
-
-        exibirCartaoJogo.remove();
-
-    }
-
-     if (event.target.id === "btnCancelarECJ")
-    {
-        exibirCartaoJogo.style.display = 'none';
-    } */
-
     if (event.target.id ===  "numerosJECJ") {
         const selectNumeros = event.target;
 
