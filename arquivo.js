@@ -7,7 +7,6 @@ const inputTitulo = document.getElementById("titulo");
 const salvar = document.getElementById("btn-salvar-janelaJogos");
 const janelaJogos = document.querySelector(".janelaAdicionar");
 const exibirCartaoJogo = document.querySelector(".exibirCartaoJogo");
-
 const main = document.getElementById("main");
 const jogando = document.querySelector(".jogando");
 const botaoJogando = jogando.querySelector(".btn-mais");
@@ -18,43 +17,61 @@ const botaoJogado = jogado.querySelector(".btn-mais");
 const tenhoInteresse = document.querySelector(".tenhoInteresse");
 const botaoTenhoInteresse = tenhoInteresse.querySelector(".btn-mais");
 const abrirInformacoes = document.querySelector(".exibirCartaoJogo");
-//abrirInformacoes.style.display = 'none';
 
 let salvouNumeros = false;
 let salvoClicou = false;
+let modoJanela = janelaJogos.dataset.modo;
+let idTemporario;
 
 //biblioteca
 let biblioteca = [];
 
 
 //salvarJanela
-salvar.addEventListener("click", function() {
 
-    //jogos
-    const novoJogo = {
-    id: Date.now(), 
-    titulo: inputTitulo.value,
-    descricao: inputDescricao.value,
-    status: selectStatus.value,
-    nota: selectNumeros.value
-}
-    biblioteca.push(novoJogo);
+    
+    salvar.addEventListener("click", function () {
+        if (modoJanela == "criar")
+        {
+               //jogos
+            const novoJogo = {
+            id: Date.now(), 
+            titulo: inputTitulo.value,
+            descricao: inputDescricao.value,
+            status: selectStatus.value,
+            nota: selectNumeros.value
+            }
+            biblioteca.push(novoJogo);
 
-    inputTitulo.value = '';
-    inputDescricao.value = '';
-    selectStatus.selectedIndex = 0; 
-    selectNumeros.selectedIndex = 0; 
-    janelaJogos.style.display = 'none';
-    janelaJogos.style.display = 'none';
+            inputTitulo.value = '';
+            inputDescricao.value = '';
+            selectStatus.selectedIndex = 0; 
+            selectNumeros.selectedIndex = 0; 
+            janelaJogos.style.display = 'none';
+            janelaJogos.style.display = 'none';
 
-    renderizarTela();
-});
+            renderizarTela();
+            
+        }
+        else if (modoJanela == "editar")
+        {
+           salvar.addEventListener("click", function () 
+            {
+                console.log("botão salvar ativado");
+            });
+        }
+
+ 
+    });
+
+
+
 //função 
 function renderizarTela()
 {
     const ultimoJogo = biblioteca[biblioteca.length-1];
     let novoCartaoHTML = `
-            <div class="cartaoJogo" data-id="${ultimoJogo.id}>
+            <div class="cartaoJogo" data-id="${ultimoJogo.id}">
                 <button class="botaoCartaoJogo"></button>
                 <div class="info-cartao">
                     <h3>${ultimoJogo.titulo}</h3>
@@ -89,7 +106,9 @@ function renderizarTela()
 
 function abrirInfo()
 {
-    console.log("renner é viado");
+    modoJanela = "editar";
+    modoEditar();
+    let valoresJanelaJogos = janelaJogos.querySelector(".status");
 }
 
 //select "numeros"
@@ -101,21 +120,45 @@ for(let i = 1; i<=10; i++)
     selectNumeros.appendChild(option);
 }
 
+function modocriar()
+{
+    modoJanela = "criar";
+    janelaJogos.querySelector(".botoes").lastElementChild.style.display = 'none';
+    console.log(modoJanela);
+    janelaJogos.style.display = 'block';
+    
+}
+
+function modoEditar()
+{
+    modoJanela = "editar";
+    janelaJogos.querySelector(".botoes").lastElementChild.style.display = 'block';
+    console.log(modoJanela);
+    janelaJogos.style.display = 'block';
+}
 
 //button "salvar"
 janelaJogos.style.display = 'none';
 
-//delegações
+//DELEGAÇÕES
 document.addEventListener("click", (event) => {
     const btnSalvarECJ = document.querySelector(".btnSalvarECJ");
     const btnCancelarECJ = document.getElementById("btnCancelarECJ");
     const selectNumeros = document.getElementById("numerosJECJ");
     const descricaoInputECJ = document.getElementById("descricaoInputECJ");
+
     const cartao = event.target.closest(".cartaoJogo");
+    if (!cartao) 
+    {
+        return;
+    }
+    else
+    {
+        idTemporario = cartao.dataset.id;
+        abrirInfo();
+    }
 
-    if (!cartao) return;
-
-    abrirInfo();
+   
     
     if (event.target.id ===  "numerosJECJ") {
         const selectNumeros = event.target;
@@ -134,10 +177,7 @@ document.addEventListener("click", (event) => {
         selectNumeros.dataset.preenchido = "true";
 }
    
-});
-
-
-
+});//}
 
 //button "cancelar" de janelaJogos
 const buttonCancelarJanelaJogos = document.getElementById("btn-cancelar-janelaJogos");
@@ -148,6 +188,6 @@ buttonCancelarJanelaJogos.addEventListener("click", function(){
 //button "mais" de janelaJogos
 const mais = document.querySelector (".btn-mais");
 mais.addEventListener("click", function(){
-    janelaJogos.style.display = 'block';
+   modocriar();
 });
 
