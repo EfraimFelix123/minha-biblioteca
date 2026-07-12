@@ -224,6 +224,7 @@ footer {
     padding-top: 20px;
     display: flex;
     align-items: flex-end;
+    gap: 10px;
     justify-content: space-around;
 }
 .janelaAdicionar > .janelinha > img
