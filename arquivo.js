@@ -17,6 +17,7 @@ const botaoJogado = jogado.querySelector(".btn-mais");
 const tenhoInteresse = document.querySelector(".tenhoInteresse");
 const botaoTenhoInteresse = tenhoInteresse.querySelector(".btn-mais");
 const abrirInformacoes = document.querySelector(".exibirCartaoJogo");
+const btnExcluir = janelaJogos.querySelector(".botoes").lastElementChild;
 
 let salvouNumeros = false;
 let salvoClicou = false;
@@ -29,8 +30,6 @@ let jogoSendoEditado;
 
 
 //salvarJanela
-
-    
     salvar.addEventListener("click", function () {
         if (modoJanela == "criar")
         {
@@ -45,13 +44,14 @@ let jogoSendoEditado;
             }
             idTemporario = novoJogo.id;
 
-            biblioteca.push(novoJogo);
+            
 
-            if (novoJogo.titulo == "")
+            if (inputTitulo.value.trim() === "")
             {
                 window.alert("preencha os dados ou cancele");
+                return;
             }
-           
+           biblioteca.push(novoJogo);
   
         }
         else if (modoJanela == "editar")
@@ -81,21 +81,30 @@ let jogoSendoEditado;
             selectNumeros.selectedIndex = 0; 
            
             fecharJanela();
-
-             renderizarTela();
+            renderizarTela();
 
  
     });
 
+    btnExcluir.addEventListener("click", function() {
+    
+        biblioteca = biblioteca.filter(jogo => jogo.id != idTemporario);
+
+        inputTitulo.value = '';
+        inputDescricao.value = '';
+        selectStatus.selectedIndex = 0; 
+        selectNumeros.selectedIndex = 0; 
+    
+        fecharJanela();
+        renderizarTela(); 
+});
+    
 
 
 //função 
 function renderizarTela()
 {
     document.querySelectorAll(".cartaoJogo").forEach(cartao => cartao.remove());
-    
-    
-
     biblioteca.forEach(jogo => {
         
     let novoCartaoHTML = `
@@ -129,6 +138,8 @@ function abrirInfo(idCartaoJogo)
     modoJanela = "editar";
     const jogoClicado = biblioteca.find(jogo => jogo.id == idCartaoJogo);
 
+    
+
     if (jogoClicado) {
         
         inputTitulo.value = jogoClicado.titulo;
@@ -137,7 +148,11 @@ function abrirInfo(idCartaoJogo)
         selectNumeros.value = jogoClicado.nota;
         modoEditar(); 
     }
+
+    
 }
+
+
 
 //select "numeros"
 for(let i = 1; i<=10; i++)
@@ -151,7 +166,7 @@ for(let i = 1; i<=10; i++)
 function modocriar()
 {
     modoJanela = "criar";
-    janelaJogos.querySelector(".botoes").lastElementChild.style.display = 'none';
+    btnExcluir.style.display = 'none'
     console.log(modoJanela);
     janelaJogos.style.display = 'block';
     
@@ -160,12 +175,13 @@ function modocriar()
 function modoEditar()
 {
     modoJanela = "editar";
-    janelaJogos.querySelector(".botoes").lastElementChild.style.display = 'block';
+    btnExcluir.style.display = 'block'
     console.log(modoJanela);
     janelaJogos.style.display = 'block';
+
+    
 }
 
-//button "salvar"
 fecharJanela()
 
 //DELEGAÇÕES
@@ -179,8 +195,10 @@ document.addEventListener("click", (event) => {
     if (cartao) 
     {
        idTemporario = cartao.dataset.id;
-        abrirInfo(idTemporario);
+       abrirInfo(idTemporario);
+       
     }
+
 
    
     
