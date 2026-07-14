@@ -30,9 +30,18 @@ let jogoSendoEditado;
 
 
 //salvarJanela
-    salvar.addEventListener("click", function () {
+    salvar.addEventListener("click", async function () {
         if (modoJanela == "criar")
         {
+            if (inputTitulo.value.trim() === "")
+            {
+                window.alert("preencha os dados ou cancele");
+                return;
+            }
+
+            
+
+            let imagemJogo = await buscarCapaDoJogo(inputTitulo.value);
             
             //jogos
             const novoJogo = {
@@ -40,17 +49,16 @@ let jogoSendoEditado;
             titulo: inputTitulo.value,
             descricao: inputDescricao.value,
             status: selectStatus.value,
-            nota: selectNumeros.value
+            nota: selectNumeros.value,
+            capa: imagemJogo
             }
             idTemporario = novoJogo.id;
 
             
 
-            if (inputTitulo.value.trim() === "")
-            {
-                window.alert("preencha os dados ou cancele");
-                return;
-            }
+            
+
+
            biblioteca.push(novoJogo);
   
         }
@@ -80,8 +88,10 @@ let jogoSendoEditado;
             selectStatus.selectedIndex = 0; 
             selectNumeros.selectedIndex = 0; 
            
+            console.log("nome do título KJDSADSKJ: "+biblioteca.find(jogo => jogo.id == idTemporario).titulo);
             fecharJanela();
             renderizarTela();
+
 
  
     });
@@ -108,7 +118,7 @@ function renderizarTela()
     biblioteca.forEach(jogo => {
         
     let novoCartaoHTML = `
-            <div class="cartaoJogo" data-id="${jogo.id}">
+            <div class="cartaoJogo" data-id="${jogo.id}" style="background-image: url('${jogo.capa}');">
                 <button class="botaoCartaoJogo"></button>
                 <div class="info-cartao">
                     <h3>${jogo.titulo}</h3>
@@ -238,4 +248,29 @@ const mais = document.querySelector (".btn-mais");
 mais.addEventListener("click", function(){
    modocriar();
 });
+
+//API TESTE
+async function buscarCapaDoJogo(nomeDoJogo) {
+    const busca = nomeDoJogo.replace(" ", "%20");
+    const urlDaApi = `https://api.rawg.io/api/games?search=${busca}&key=3509b61d91744100a25d2f0453af764e`;
+
+   
+        const resposta = await fetch(urlDaApi);
+        const dados = await resposta.json();
+        const jogoEncontrado = dados.results[0]; 
+
+        
+        if (jogoEncontrado) {
+            const linkDaCapa = jogoEncontrado.background_image;
+            console.log("Nome oficial: ", jogoEncontrado.name);
+            console.log("Capa do jogo: ", linkDaCapa);
+            
+            
+            return linkDaCapa;
+        } else {
+            console.log("Jogo não encontrado na RAWG.");
+        }
+
+    
+}
 

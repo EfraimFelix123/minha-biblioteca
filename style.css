@@ -243,7 +243,6 @@ footer {
 .cartaoJogo {
     display: flex;
     flex-direction: column;
-    background-image: url(prina.png);
     background-size: cover;
     background-position: center;
     min-width: 256px;
