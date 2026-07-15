@@ -18,6 +18,8 @@ const tenhoInteresse = document.querySelector(".tenhoInteresse");
 const botaoTenhoInteresse = tenhoInteresse.querySelector(".btn-mais");
 const abrirInformacoes = document.querySelector(".exibirCartaoJogo");
 const btnExcluir = janelaJogos.querySelector(".botoes").lastElementChild;
+const tituloJogo = janelaJogos.querySelector(".tituloJogo");
+const imag = document.querySelector(".capaJogo");
 
 let salvouNumeros = false;
 let salvoClicou = false;
@@ -31,8 +33,10 @@ let jogoSendoEditado;
 
 //salvarJanela
     salvar.addEventListener("click", async function () {
+        loading();
         if (modoJanela == "criar")
         {
+             let imagemJogo;
             if (inputTitulo.value.trim() === "")
             {
                 window.alert("preencha os dados ou cancele");
@@ -40,8 +44,18 @@ let jogoSendoEditado;
             }
 
             
+                try {
+                    
+                imagemJogo = await buscarCapaDoJogo(inputTitulo.value);
+            
+                    
+                } catch (erro) {
+                    console.log(erro);
+                    
+                }
+                if (!imagemJogo) { imagemJogo = 'cinza.jpg';}
 
-            let imagemJogo = await buscarCapaDoJogo(inputTitulo.value);
+          
             
             //jogos
             const novoJogo = {
@@ -86,7 +100,8 @@ let jogoSendoEditado;
             inputTitulo.value = '';
             inputDescricao.value = '';
             selectStatus.selectedIndex = 0; 
-            selectNumeros.selectedIndex = 0; 
+            selectNumeros.selectedIndex = 0;
+            tituloJogo.textContent = "adicione o jogo" 
            
             console.log("nome do título KJDSADSKJ: "+biblioteca.find(jogo => jogo.id == idTemporario).titulo);
             fecharJanela();
@@ -95,6 +110,8 @@ let jogoSendoEditado;
 
  
     });
+
+   
 
     btnExcluir.addEventListener("click", function() {
     
@@ -110,10 +127,17 @@ let jogoSendoEditado;
 });
     
 
+ function loading ()
+    {
+        tituloJogo.textContent = "salvando...";
+        
+    }
 
 //função 
 function renderizarTela()
 {
+
+   
     document.querySelectorAll(".cartaoJogo").forEach(cartao => cartao.remove());
     biblioteca.forEach(jogo => {
         
@@ -175,6 +199,13 @@ for(let i = 1; i<=10; i++)
 
 function modocriar()
 {
+      inputTitulo.value = '';
+        inputDescricao.value = '';
+        selectStatus.selectedIndex = 0; 
+        selectNumeros.selectedIndex = 0; 
+    
+    const procurarfds = biblioteca.find(jogo => jogo.id == idTemporario);
+    imag.src = "cinza.jpg";
     modoJanela = "criar";
     btnExcluir.style.display = 'none'
     console.log(modoJanela);
@@ -184,8 +215,15 @@ function modocriar()
 
 function modoEditar()
 {
+    const procurarfds = biblioteca.find(jogo => jogo.id == idTemporario);
+
+        
+        imag.src = procurarfds.capa;
+
+   
+
     modoJanela = "editar";
-    btnExcluir.style.display = 'block'
+    btnExcluir.style.display = 'block';
     console.log(modoJanela);
     janelaJogos.style.display = 'block';
 
@@ -255,6 +293,7 @@ async function buscarCapaDoJogo(nomeDoJogo) {
     const urlDaApi = `https://api.rawg.io/api/games?search=${busca}&key=3509b61d91744100a25d2f0453af764e`;
 
    
+    try{
         const resposta = await fetch(urlDaApi);
         const dados = await resposta.json();
         const jogoEncontrado = dados.results[0]; 
@@ -270,6 +309,13 @@ async function buscarCapaDoJogo(nomeDoJogo) {
         } else {
             console.log("Jogo não encontrado na RAWG.");
         }
+
+    }catch (erro)
+    {
+        console.log(erro);
+
+    }
+        
 
     
 }
