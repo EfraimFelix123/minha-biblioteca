@@ -1,3 +1,22 @@
+//FIREBASE
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";    
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC3t_BuMimAzSpdq8BGnnPY6qSj8QG7Qtw",
+  authDomain: "minha-biblioteca-de-jogos.firebaseapp.com",
+  projectId: "minha-biblioteca-de-jogos",
+  storageBucket: "minha-biblioteca-de-jogos.firebasestorage.app",
+  messagingSenderId: "704537020487",
+  appId: "1:704537020487:web:f5a7404cc7d9565ba1c962"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); 
+
+
+
 //constantes e valores
 const selectNumeros = document.querySelector(".numeros");
 const selectStatus = document.querySelector(".status");
@@ -44,11 +63,9 @@ let jogoSendoEditado;
             }
 
             
-                try {
-                    
+                try 
+                {
                 imagemJogo = await buscarCapaDoJogo(inputTitulo.value);
-            
-                    
                 } catch (erro) {
                     console.log(erro);
                     
@@ -66,12 +83,20 @@ let jogoSendoEditado;
             nota: selectNumeros.value,
             capa: imagemJogo
             }
+
+            if (inputTitulo.value == "carlinhos")
+            {
+                novoJogo.capa = "image.png";
+            }
             idTemporario = novoJogo.id;
 
-            
-
-            
-
+            try {
+                // Comando que cria a coleção "jogos" e empurra o objeto para lá
+                await addDoc(collection(db, "jogos"), novoJogo);
+                console.log("Jogo salvo no Firebase com sucesso!");
+            } catch (erro) {
+                console.error("Erro ao tentar salvar no Firebase: ", erro);
+            }
 
            biblioteca.push(novoJogo);
   
@@ -296,16 +321,14 @@ async function buscarCapaDoJogo(nomeDoJogo) {
     try{
         const resposta = await fetch(urlDaApi);
         const dados = await resposta.json();
-        const jogoEncontrado = dados.results[0]; 
-
+        const jogoEncontrado = dados.results[0];
         
         if (jogoEncontrado) {
             const linkDaCapa = jogoEncontrado.background_image;
             console.log("Nome oficial: ", jogoEncontrado.name);
             console.log("Capa do jogo: ", linkDaCapa);
-            
-            
             return linkDaCapa;
+
         } else {
             console.log("Jogo não encontrado na RAWG.");
         }
