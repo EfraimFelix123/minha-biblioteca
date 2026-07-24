@@ -1,7 +1,7 @@
 //FIREBASE
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";    
+import { getFirestore, collection, addDoc, getDocs} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";    
 
 const firebaseConfig = {
   apiKey: "AIzaSyC3t_BuMimAzSpdq8BGnnPY6qSj8QG7Qtw",
@@ -39,6 +39,11 @@ const abrirInformacoes = document.querySelector(".exibirCartaoJogo");
 const btnExcluir = janelaJogos.querySelector(".botoes").lastElementChild;
 const tituloJogo = janelaJogos.querySelector(".tituloJogo");
 const imag = document.querySelector(".capaJogo");
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    carregarJogoNuvem();
+});
 
 let salvouNumeros = false;
 let salvoClicou = false;
@@ -99,6 +104,8 @@ let jogoSendoEditado;
             }
 
            biblioteca.push(novoJogo);
+          
+           
   
         }
         else if (modoJanela == "editar")
@@ -151,6 +158,33 @@ let jogoSendoEditado;
         renderizarTela(); 
 });
     
+async function carregarJogoNuvem()
+{
+    
+   
+    try 
+    {
+        const fds = await getDocs(collection(db, "jogos")); 
+        fds.forEach(firejogo => {
+            const jogoNuvem = {
+            id: firejogo.id, 
+            titulo: firejogo.data().titulo,
+            descricao:  firejogo.data().descricao,
+            status:  firejogo.data().status,
+            nota:  firejogo.data().nota,
+            capa:  firejogo.data().capa
+            }
+            biblioteca.push(jogoNuvem)
+        });
+    } 
+    catch (error) 
+    {
+        console.log("erro  ao tentar puxar os elementos")
+    }
+    
+        renderizarTela();
+
+}
 
  function loading ()
     {
