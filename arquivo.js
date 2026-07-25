@@ -1,7 +1,7 @@
 //FIREBASE
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";    
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";    
 
 const firebaseConfig = {
   apiKey: "AIzaSyC3t_BuMimAzSpdq8BGnnPY6qSj8QG7Qtw",
@@ -80,30 +80,39 @@ let jogoSendoEditado;
           
             
             //jogos
+           
             const novoJogo = {
-            id: Date.now(), 
             titulo: inputTitulo.value,
             descricao: inputDescricao.value,
             status: selectStatus.value,
             nota: selectNumeros.value,
-            capa: imagemJogo
+            capa: imagemJogo,
+            dataCriacao: Date.now()
+            
             }
 
             if (inputTitulo.value == "carlinhos")
             {
                 novoJogo.capa = "image.png";
             }
-            idTemporario = novoJogo.id;
 
             try {
                 // Comando que cria a coleção "jogos" e empurra o objeto para lá
-                await addDoc(collection(db, "jogos"), novoJogo);
+                const adoc = await addDoc(collection(db, "jogos"), novoJogo);
                 console.log("Jogo salvo no Firebase com sucesso!");
+                novoJogo.id = adoc.id;
+                idTemporario = novoJogo.id;
+
+                console.log("deu certo caraio receba: "+novoJogo.id);
+                
+            
+                 biblioteca.push(novoJogo);
+              
             } catch (erro) {
                 console.error("Erro ao tentar salvar no Firebase: ", erro);
             }
-
-           biblioteca.push(novoJogo);
+            
+          
           
            
   
@@ -111,6 +120,7 @@ let jogoSendoEditado;
         else if (modoJanela == "editar")
         {
             jogoSendoEditado = biblioteca.find(jogo => jogo.id == idTemporario);
+
 
             if(inputTitulo.value == "")
             {
@@ -125,7 +135,9 @@ let jogoSendoEditado;
                 jogoSendoEditado.status = selectStatus.value;
                 jogoSendoEditado.nota = selectNumeros.value;
             }
-           
+
+         
+           editarJogoNuvem();
             console.log(jogoSendoEditado.titulo, jogoSendoEditado.status);
             
         } 
@@ -133,7 +145,7 @@ let jogoSendoEditado;
             inputDescricao.value = '';
             selectStatus.selectedIndex = 0; 
             selectNumeros.selectedIndex = 0;
-            tituloJogo.textContent = "adicione o jogo" 
+            tituloJogo.textContent = "adicione o jogo"; 
            
             console.log("nome do título KJDSADSKJ: "+biblioteca.find(jogo => jogo.id == idTemporario).titulo);
             fecharJanela();
@@ -149,22 +161,66 @@ let jogoSendoEditado;
     
         biblioteca = biblioteca.filter(jogo => jogo.id != idTemporario);
 
+        excluirJogoNuvem()
+
         inputTitulo.value = '';
         inputDescricao.value = '';
         selectStatus.selectedIndex = 0; 
         selectNumeros.selectedIndex = 0; 
     
         fecharJanela();
-        renderizarTela(); 
+        renderizarTela();
 });
     
+async function editarJogoNuvem() {
+    try {
+        const referencia = doc(db, "jogos", idTemporario);
+
+        await updateDoc(referencia,{
+        titulo: inputTitulo.value,
+        descricao: inputDescricao.value,
+        status: selectStatus.value,
+        nota: selectNumeros.value
+
+        });
+
+        console.log("Jogo editado com sucesso na nuvem!");
+        
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
+async function excluirJogoNuvem() {
+    try {
+        const referencia = doc(db, "jogos", idTemporario);
+
+        await deleteDoc(referencia,{
+        titulo: inputTitulo.value,
+        descricao: inputDescricao.value,
+        status: selectStatus.value,
+        nota: selectNumeros.value
+
+        });
+
+        console.log("Jogo editado com sucesso na nuvem!");
+        
+    } catch (error) {
+        console.log(error);
+    }
+    
+} 
+
+
+
 async function carregarJogoNuvem()
 {
-    
-   
     try 
     {
-        const fds = await getDocs(collection(db, "jogos")); 
+        const consultaOrdenada = query(collection(db, "jogos"), orderBy("dataCriacao", "desc"))
+        const fds = await getDocs(consultaOrdenada); 
+
         fds.forEach(firejogo => {
             const jogoNuvem = {
             id: firejogo.id, 
@@ -174,8 +230,14 @@ async function carregarJogoNuvem()
             nota:  firejogo.data().nota,
             capa:  firejogo.data().capa
             }
+
+             idTemporario = jogoNuvem.id
             biblioteca.push(jogoNuvem)
+             console.log(firejogo.id)
+             console.log(jogoNuvem.id)
         });
+
+       
     } 
     catch (error) 
     {
