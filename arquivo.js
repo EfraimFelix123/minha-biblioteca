@@ -1,7 +1,8 @@
 //FIREBASE
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";    
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc, where} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js"; 
+import {getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";   
 
 const firebaseConfig = {
   apiKey: "AIzaSyC3t_BuMimAzSpdq8BGnnPY6qSj8QG7Qtw",
@@ -9,13 +10,13 @@ const firebaseConfig = {
   projectId: "minha-biblioteca-de-jogos",
   storageBucket: "minha-biblioteca-de-jogos.firebasestorage.app",
   messagingSenderId: "704537020487",
-  appId: "1:704537020487:web:f5a7404cc7d9565ba1c962"
+  appId: "1:704537020487:web:f5a7404cc7d9565ba1c962"    
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); 
-
-
+const auth = getAuth(app);
+const provedorGoogle = new GoogleAuthProvider();
 
 //constantes e valores
 const selectNumeros = document.querySelector(".numeros");
@@ -26,7 +27,7 @@ const inputTitulo = document.getElementById("titulo");
 const salvar = document.getElementById("btn-salvar-janelaJogos");
 const janelaJogos = document.querySelector(".janelaAdicionar");
 const exibirCartaoJogo = document.querySelector(".exibirCartaoJogo");
-const main = document.getElementById("main");
+const main = document.getElementById("appPrincipal");
 const jogando = document.querySelector(".jogando");
 const botaoJogando = jogando.querySelector(".btn-mais");
 const abandonado = document.querySelector(".abandonado");
@@ -39,11 +40,9 @@ const abrirInformacoes = document.querySelector(".exibirCartaoJogo");
 const btnExcluir = janelaJogos.querySelector(".botoes").lastElementChild;
 const tituloJogo = janelaJogos.querySelector(".tituloJogo");
 const imag = document.querySelector(".capaJogo");
+const btnLoginGoogle = document.getElementById("loginGoogle");
+const btnSair = document.getElementById("sair");
 
-
-document.addEventListener("DOMContentLoaded", () => {
-    carregarJogoNuvem();
-});
 
 let salvouNumeros = false;
 let salvoClicou = false;
@@ -53,6 +52,7 @@ let idTemporario;
 //biblioteca
 let biblioteca = [];
 let jogoSendoEditado;
+let usuarioAtualUID = null;
 
 
 //salvarJanela
@@ -87,7 +87,8 @@ let jogoSendoEditado;
             status: selectStatus.value,
             nota: selectNumeros.value,
             capa: imagemJogo,
-            dataCriacao: Date.now()
+            dataCriacao: Date.now(),
+            donoJogo: usuarioAtualUID
             
             }
 
@@ -103,7 +104,6 @@ let jogoSendoEditado;
                 novoJogo.id = adoc.id;
                 idTemporario = novoJogo.id;
 
-                console.log("deu certo caraio receba: "+novoJogo.id);
                 
             
                  biblioteca.push(novoJogo);
@@ -141,10 +141,7 @@ let jogoSendoEditado;
             console.log(jogoSendoEditado.titulo, jogoSendoEditado.status);
             
         } 
-            inputTitulo.value = '';
-            inputDescricao.value = '';
-            selectStatus.selectedIndex = 0; 
-            selectNumeros.selectedIndex = 0;
+            limpaValores();
             tituloJogo.textContent = "adicione o jogo"; 
            
             console.log("nome do título KJDSADSKJ: "+biblioteca.find(jogo => jogo.id == idTemporario).titulo);
@@ -155,6 +152,64 @@ let jogoSendoEditado;
  
     });
 
+    //LOGIN
+    onAuthStateChanged(auth, (usuarioLogado) => {
+    if (usuarioLogado) {
+        
+        console.log("Reconhecimento automático: logado como", usuarioLogado.displayName);
+        btnLoginGoogle.textContent = "Conta";
+        btnSair.style.display = 'inline'; 
+          main.style.display = 'inline';
+        usuarioAtualUID = usuarioLogado.uid;
+        carregarJogoNuvem()
+    } else {
+        console.log("Ninguém está logado no momento.");
+        btnSair.style.display = 'none';
+        main.style.display = 'none';
+        btnSair.style.display = 'none';
+        btnLoginGoogle.textContent = "Login"; 
+        usuarioAtualUID = null;
+        
+    }
+});
+
+function atualizarSite(){
+    location.reload();
+}
+    btnLoginGoogle.addEventListener("click", async (event) => {
+    
+    event.preventDefault(); 
+    
+    try {
+        
+        const resultado = await signInWithPopup(auth, provedorGoogle);
+        
+       
+        const usuario = resultado.user;
+        
+        console.log("Deu certo! O usuário logou.");
+        console.log("Nome do Jogador:", usuario.displayName);
+        console.log("A Identidade Única (UID):", usuario.uid);
+        
+        
+        
+    } catch (erro) {
+        console.error("Erro ao tentar fazer o login: ", erro);
+    }
+});
+
+btnSair.addEventListener("click", async (event) => {
+    try {
+        
+        await signOut(auth);
+        console.log("deslogou");
+        atualizarSite();
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
    
 
     btnExcluir.addEventListener("click", function() {
@@ -163,14 +218,19 @@ let jogoSendoEditado;
 
         excluirJogoNuvem()
 
-        inputTitulo.value = '';
-        inputDescricao.value = '';
-        selectStatus.selectedIndex = 0; 
-        selectNumeros.selectedIndex = 0; 
+        limpaValores();
     
         fecharJanela();
         renderizarTela();
 });
+
+function limpaValores()
+{
+        inputTitulo.value = '';
+        inputDescricao.value = '';
+        selectStatus.selectedIndex = 0; 
+        selectNumeros.selectedIndex = 0; 
+}
     
 async function editarJogoNuvem() {
     try {
@@ -195,15 +255,7 @@ async function editarJogoNuvem() {
 async function excluirJogoNuvem() {
     try {
         const referencia = doc(db, "jogos", idTemporario);
-
-        await deleteDoc(referencia,{
-        titulo: inputTitulo.value,
-        descricao: inputDescricao.value,
-        status: selectStatus.value,
-        nota: selectNumeros.value
-
-        });
-
+        await deleteDoc(referencia);
         console.log("Jogo editado com sucesso na nuvem!");
         
     } catch (error) {
@@ -218,7 +270,9 @@ async function carregarJogoNuvem()
 {
     try 
     {
-        const consultaOrdenada = query(collection(db, "jogos"), orderBy("dataCriacao", "desc"))
+        const consultaOrdenada = query(collection(db, "jogos"), 
+        where("donoJogo", "==", usuarioAtualUID),
+        orderBy("dataCriacao", "asc"))
         const fds = await getDocs(consultaOrdenada); 
 
         fds.forEach(firejogo => {
@@ -241,7 +295,7 @@ async function carregarJogoNuvem()
     } 
     catch (error) 
     {
-        console.log("erro  ao tentar puxar os elementos")
+        console.log(error)
     }
     
         renderizarTela();
@@ -320,10 +374,7 @@ for(let i = 1; i<=10; i++)
 
 function modocriar()
 {
-      inputTitulo.value = '';
-        inputDescricao.value = '';
-        selectStatus.selectedIndex = 0; 
-        selectNumeros.selectedIndex = 0; 
+      limpaValores();
     
     const procurarfds = biblioteca.find(jogo => jogo.id == idTemporario);
     imag.src = "cinza.jpg";
