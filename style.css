@@ -20,6 +20,22 @@
     --background5: #6c6c6c;
     --background6: #ebebeb;
     
+    --bg-principal: #0B0D14;
+    --bg-secundario: #151720;
+    --cor-destaque: #6C5DD3;
+    --azul-roxo: #5a7aec;
+    --cor-texto-principal: #FFFFFF;
+    --cor-texto-secundario: #8B8E99;
+
+    --font-micro: 11px;
+    --font-pequena: 13px;
+    --font-base: 14px;
+    --font-titulo-secao: 13px;
+    --font-titulo-jogo: 16px;
+    --font-logo: 20px;
+
+    --font-titulo-logo: 24px;
+    --font-logo: 20px;
 
 }
 
@@ -32,6 +48,11 @@ html h1, p
 {
     color: rgb(215, 236, 255);
 }
+h1
+{
+    font-size: 24px;
+
+}
 html button, select
 {
     cursor: pointer;
@@ -42,7 +63,7 @@ body {
     width: 100%;
     margin: 0%;
     padding: 0%;
-    background: rgb(44, 42, 42);
+    background: var(--bg-principal);
      min-width: 320px;
     min-height: 100vh;
     display: flex;
@@ -74,6 +95,19 @@ main
     flex: 1;
 }
 
+.roxear{
+    color: var(--azul-roxo);
+}
+.tituloHeader{
+    display: flex;
+    gap: 15px;
+}
+.controlIcon{
+    display: flex;
+    width: 65px; 
+  height: 65px;
+   color: var(--azul-roxo);
+}
 .titulos
 { 
     display: flex;
