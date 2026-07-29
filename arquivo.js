@@ -49,6 +49,7 @@ let salvoClicou = false;
 let modoJanela = janelaJogos.dataset.modo;
 let idTemporario;
 
+
 //biblioteca
 let biblioteca = [];
 let jogoSendoEditado;
@@ -334,7 +335,7 @@ function renderizarTela()
         else if (jogo.status === "abandonado") estanteDestino = botaoAbandonado;
         else return;
         
-        botaoMais.insertAdjacentHTML("afterend", novoCartaoHTML);
+      
         estanteDestino.insertAdjacentHTML("afterend", novoCartaoHTML); 
 
     });

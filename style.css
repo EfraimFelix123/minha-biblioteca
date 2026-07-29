@@ -13,12 +13,6 @@
 /* classes para se reutilizar */
 :root
 {
-    --background1: #101010;
-    --background2: #1f1f1f;
-    --background3: #252424;
-    --background4: #1f699a;
-    --background5: #6c6c6c;
-    --background6: #ebebeb;
     
     --bg-principal: #060911;
     --bg-secundario: #0c0f1d;
@@ -27,6 +21,8 @@
     --cor-texto-principal: #FFFFFF;
     --cor-texto-secundario: #8B8E99;
     --cor-borda: #1b2030;
+    --verde: #1c9e60;
+    --vermelho: #cc3d54;
 
     --font-micro: 11px;
     --font-pequena: 13px;
@@ -118,6 +114,19 @@ main
     
     
 }
+.jogado > .titulos >h1 {
+    color: var(--verde);
+}
+
+.tenhoInteresse > .titulos >h1 {
+    color: var(--azul-roxo);
+}
+.abandonado > .titulos >h1 {
+    color: var(--vermelho);
+}
+.jogando > .titulos >h1 {
+    color: var(--cor-destaque);
+}
 
 footer {
      display: flex;
@@ -162,7 +171,7 @@ footer {
    
     min-width: 256px;
     height: 87%;
-    width: 33%;
+    width: 100%;
     margin: 10px;
     scroll-snap-align: start;
     border-radius: 16px;
@@ -173,14 +182,35 @@ footer {
     
 }
 
-
-
-.adicionarJogos > button > p
-{
-    font-size: 100px;
-    margin: 0;
-    color: var(--cor-destaque);
+.pEscuro{
+    color:var(--cor-texto-secundario);
 }
+
+.adicionarJogos > button > div
+{
+    display: flex;
+    
+    
+   
+    flex-direction: column;
+    font-size: var(--font-pequena);
+    margin: 0;
+    gap: 0px;
+    margin: 0px;
+    
+}
+.mais
+{
+
+      display: inline-block;
+      
+    font-size: 60px;
+    color: var(--cor-destaque);
+    gap:0px;
+    margin-top: 10px;
+    border: 0px;
+}
+
 .janelaAdicionar
 {
     top: 50%;
@@ -376,6 +406,7 @@ footer {
     background-color: var(--bg-principal);   
 
 }
+
 .infoJanelaCartaoJogo
 {
      display: flex;
