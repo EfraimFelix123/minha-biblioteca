@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Exemplo Sidebar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Container flex que segura tudo -->
+  <div class="layout-principal">
+    
+    <!-- Nossa gaveta -->
+    <aside class="sidebar" id="minha-sidebar">
+      <h2>Navegação</h2>
+      <ul>
+        <li>Descobrir</li>
+        <li>Biblioteca</li>
+      </ul>
+    </aside>
+
+    <!-- O resto do site -->
+    <main class="conteudo-site">
+      <button id="btn-toggle">Alternar Gaveta</button>
+      <h1>Conteúdo Principal</h1>
+      <p>Quando a gaveta encolher, este espaço vai se esticar automaticamente graças ao Flexbox.</p>
+    </main>
+
+  </div>
+
+ <script src="exemplo.js" type = "module"></script>
+</body>
+</html>

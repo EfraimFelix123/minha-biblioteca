@@ -1,3 +1,5 @@
+
+
 //FIREBASE
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
@@ -42,6 +44,9 @@ const tituloJogo = janelaJogos.querySelector(".tituloJogo");
 const imag = document.querySelector(".capaJogo");
 const btnLoginGoogle = document.getElementById("loginGoogle");
 const btnSair = document.getElementById("sair");
+const fecharBarra = document.getElementById("fechar");
+const barraLateral = document.querySelector(".barraLateral");
+const abrirBarra = document.getElementById("open");
 
 
 let salvouNumeros = false;
@@ -210,6 +215,18 @@ btnSair.addEventListener("click", async (event) => {
         console.log(error);
     }
 });
+
+fecharBarra.addEventListener("click", ()=>{
+    
+     barraLateral.classList.toggle('recolhida');
+});
+abrirBarra.addEventListener("click", ()=>{
+    
+     barraLateral.classList.toggle('barraLateral');
+});
+
+
+
 
    
 
