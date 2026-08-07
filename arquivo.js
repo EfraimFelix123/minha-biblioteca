@@ -47,6 +47,8 @@ const btnSair = document.getElementById("sair");
 const fecharBarra = document.getElementById("fechar");
 const barraLateral = document.querySelector(".barraLateral");
 const abrirBarra = document.getElementById("open");
+const logoHeader = document.getElementById("logoHeader");
+const tituloHeader = document.querySelector(".tituloHeader");
 
 
 let salvouNumeros = false;
@@ -216,17 +218,17 @@ btnSair.addEventListener("click", async (event) => {
     }
 });
 
-fecharBarra.addEventListener("click", ()=>{
-    
-     barraLateral.classList.toggle('recolhida');
-});
-abrirBarra.addEventListener("click", ()=>{
-    
-     barraLateral.classList.toggle('barraLateral');
+fecharBarra.addEventListener("click", () => {
+     barraLateral.classList.add('recolhida');
+     tituloHeader.style.display = 'none';
+     logoHeader.style.display = 'flex'; 
 });
 
-
-
+abrirBarra.addEventListener("click", () => {
+     barraLateral.classList.remove('recolhida');
+     logoHeader.style.display = 'none'; 
+     tituloHeader.style.display = 'flex';
+});
 
    
 

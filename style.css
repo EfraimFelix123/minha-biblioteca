@@ -131,7 +131,7 @@ h1
     font-size: 24px;
 
 }
-html button, select
+html button, select, svg
 {
     cursor: pointer;
 }
@@ -202,8 +202,13 @@ main
     display: flex;
     gap: 15px;
 }
-.controlIcon{
+#logoHeader{
     display: flex;
+    justify-content: flex-start;
+     gap: 15px;
+}
+.controlIcon{
+   
     width: 65px; 
   height: 65px;
    color: var(--azul-roxo);
