@@ -10,7 +10,7 @@
     
     
     <body>
-        <aside class = "barraLateral" style="display: flex; flex-direction: column; gap: 40px" class = "barraLateral">
+        <aside class = "barraLateral recolhida" style="display: flex; flex-direction: column; gap: 40px" class = "barraLateral">
                 <div class = "tituloHeader">
                 <svg class = "controlIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gamepad2-icon lucide-gamepad-2">
                     <line x1="6" x2="10" y1="11" y2="11"/>
@@ -19,20 +19,20 @@
                     <line x1="18" x2="18.01" y1="10" y2="10"/>
                     <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/>
                 </svg>
-                <h1>Minha Biblioteca <br>de <span class = "roxear">Jogos</span> </h1> 
+                <h1 style = "font-size: 20px;">Minha Biblioteca <br>de <span class = "roxear">Jogos</span> </h1> 
                 </div>
 
-                <div class = "iconesDiv"> 
+                <div style= "border: none;" class = "iconesDiv"> 
                     <div class = "iconesEspacos">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-library-big-icon lucide-library-big"><rect width="8" height="18" x="3" y="3" rx="1"/><path d="M7 3v18"/><path d="M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z"/></svg>
                         <a href="#Biblioteca" id = "bibliotecaBarra"class="btn-estilizado">Biblioteca</a>
                     </div>
-                     <div class = "iconesEspacos">
+                    <div class = "iconesEspacos">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-compass-icon lucide-compass"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></svg>
                         <a href="#Descobrir" id = "descobrirBarra"class="btn-estilizado">Descobrir</a>
                         
                     </div>
-                     <div class = "iconesEspacos">
+                    <div class = "iconesEspacos">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-column-increasing-icon lucide-chart-no-axes-column-increasing"><path d="M5 21v-6"/><path d="M12 21V9"/><path d="M19 21V3"/></svg>
                         <a href="#estatística" id = "estatisticaBarra"class="btn-estilizado">Estatística</a>
                     </div>
@@ -45,45 +45,63 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap:35px; justify-content: space-between; flex: 1;"  >
                     <div class = "iconesDiv"> 
-                    <p style="color: #8B8E99;">CATEGORIAS</p>
+                    <p style="margin-top: 35px;">CATEGORIAS</p>
                     <div class = "iconesEspacos">
                         <svg style="color:#1c9e60;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-dot-right-horizontal-icon lucide-line-dot-right-horizontal"><path d="M 3 12 L 15 12"/><circle cx="18" cy="12" r="3"/></svg>
-                        <a href="#Jogando" id = "jogandoBarra"class="btn-estilizado">Jogando</a>
+                        <div class = "categorias">
+                            <a href="#Jogando" id = "jogandoBarra"class="btn-estilizado">Jogando</a>
+                            <p class = "numeroJogando" class = "numeroCategoria">1</p>
+                        </div>
+                        
                     </div>
                      <div class = "iconesEspacos">          
                         <svg style="color:#5a7aec;"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-heart-icon lucide-message-circle-heart"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M7.828 13.07A3 3 0 0 1 12 8.764a3 3 0 0 1 5.004 2.224 3 3 0 0 1-.832 2.083l-3.447 3.62a1 1 0 0 1-1.45-.001z"/></svg>
-                        <a href="#tenho interesse" id = "interesseBarra"class="btn-estilizado">Tenho Interesse</a>
+                        <div class = "categorias">
+                            <a href="#tenho interesse" id = "interesseBarra"class="btn-estilizado">Tenho Interesse</a>
+                            <p class = "numeroInteresse" class = "numeroCategoria">1</p>
+                        </div>
+                        
                     </div>
                      <div class = "iconesEspacos">
                       <svg style="color:#11653d;"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
-                       <a href="#jogado" id = "jogadoBarra"class="btn-estilizado">Jogado</a>
+                      <div class = "categorias">
+                        <a href="#jogado" id = "jogadoBarra"class="btn-estilizado">Jogado</a>
+                        <p class = "numeroJogado" class = "numeroCategoria">1</p>
+                      </div> 
+                      
                     </div>
                      <div class = "iconesEspacos">
                        <svg style="color:#cc3d54;"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                        <a href="#abandonado" id = "abandonadoBarra"class="btn-estilizado">Abandonado</a>
+                        <div class = "categorias">
+                            <a href="#abandonado" id = "abandonadoBarra"class="btn-estilizado">Abandonado</a>
+                            <p class = "numeroAbandonado" class = "numeroCategoria">1</p>
+                        </div>
+                       
                     </div>
                     
                     
                 </div>
                
-                <div style="display: flex; justify-content: flex-end; flex-direction: column; gap:0px; "  >
-                    <div style=" height: 100px; display: flex; align-items: center; justify-content: flex-start; gap: 0px" class = "iconesEspacos">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
-                         <a href="#logout" id = "logout"class="btn-estilizado">Fechar conta</a>
-                    </div>
+                    <div style = "border: none;" id= "fundoSidebar" class = "iconesDiv" >
+                        <div class = "iconesEspacos">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+                            <a href="#logout" id = "logout"class="btn-estilizado">Sair da conta</a>
+                        </div>
                     
-                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 0px;"  class = "iconesEspacos">
-                       <svg id = "fecharIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close-icon lucide-panel-left-close"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
+                         <div id = "open" class = "iconesEspacos">
+                            <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-open-icon lucide-panel-left-open"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+                        </div>
                         
-                        <a href="#fechar" id = "fechar"class="btn-estilizado">sair</a>
-                </div>
+                        <div id = "fecharIcon" class = "iconesEspacos">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close-icon lucide-panel-left-close"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
+                            
+                            <a href="#fechar" id = "fechar"class="btn-estilizado">fechar</a>
+                        </div>
 
-                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 0px"  class = "iconesEspacos">
-                       <svg  id = "open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-open-icon lucide-panel-left-open"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
-                </div>
+                       
                 
 
-                </div>
+                    </div>
                 </div>
                 
                 
@@ -100,7 +118,7 @@
                     <line x1="18" x2="18.01" y1="10" y2="10"/>
                     <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/>
                 </svg>
-                <h1>Minha Biblioteca <br>de <span class = "roxear">Jogos</span> </h1> 
+                <h1 style = "font-size: 20px;">Minha Biblioteca <br>de <span class = "roxear">Jogos</span> </h1> 
                 </div>
 
                 <nav id = "botoes" class="botoes"> 
@@ -114,8 +132,16 @@
 
             <main id="appPrincipal">
                 <section class = "jogos">
-                    
-                    <article class="adicionarJogos"> 
+                    <div  class = "barraPesquisa">
+                        
+                        <svg class = "elementosBarraPesquisa" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+                        <input class = "elementosBarraPesquisa" style= "width: 100%; border-radius: 5px; display: flex; padding: 0 40px; min-height: 35px;" type="text" id = "pesquisaBarra" placeholder="Buscar jogos...">
+                        <div id = "botaoFiltrar"> 
+                            <svg style = "width: 18px; height: 18px;" class = "elementosBarraPesquisa" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-funnel-icon lucide-funnel"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"/></svg>
+                            <p style = "font-size: 14px;">Filtros</p>
+                        </div>
+                    </div>
+                    <article id="adicionarJogosBotao"> 
                         <button class = "btn-mais">
                             <div style="display: flex; align-items: center; justify-content: center;"> 
                                 <svg class = "mais" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg> 
@@ -124,10 +150,13 @@
                         
                         </button>   
                     </article>
-                </section>    
+                </section> 
+                <div class =  "cards">
+                    
                 <section class = "jogando">
                     <div class = "titulos">
                         <h1> JOGANDO</h1>
+                         <p id = "numeroJogandoTitulos" style = "color: #804ad1;" class = "numeroCategoria">1</p>
                     </div>
                     <article class="adicionarJogos"> 
                         <button class = "btn-mais">
@@ -139,6 +168,7 @@
                 <section class = "abandonado">
                     <div class = "titulos">
                         <h1> ABANDONADO</h1>
+                        <p id = "numeroAbandonadoTitulos" style = "color: #cc3d54;" class = "numeroCategoria">1</p>
                     </div>
                     <article class="adicionarJogos"> 
                         <button class = "btn-mais">
@@ -151,6 +181,7 @@
                 <section class = "jogado">
                     <div class = "titulos">
                         <h1> JOGADO</h1>
+                        <p id = "numeroJogadoTitulos" style = "color: #1c9e60;" class = "numeroCategoria">1</p>
                     </div>
                     <article class="adicionarJogos"> 
                         <button class = "btn-mais">
@@ -163,6 +194,7 @@
                 <section class = "tenhoInteresse">
                     <div class = "titulos">
                         <h1> TENHO INTERESSE</h1>
+                        <p id = "numeroInteresseTitulos" style = "color:  #5a7aec;" class = "numeroCategoria">1</p>
                     </div>
                     <article class="adicionarJogos">
                         <button class = "btn-mais">
@@ -171,11 +203,23 @@
                         
                     </article>
                 </section>   
+
+                </div>  
                 
             </main>
         
             <footer id = "footer">  
-                <p> Rodapé. Informações sobre o site e tals </p> 
+                <div class = "h1VerMais" style = "display: flex; justify-content: space-between; flex: 1;">
+                    <h1 id = "recomendaVoce" style = "color: #804ad1;">RECOMENDADOS PARA VOCÊ</h1>
+                    <div style = "display: flex; justify-content: flex-start; gap: 10px">
+                        <p  style = "color:  #5a7aec;">ver mais</p>
+                        <svg  href="#próxima" class = "numeroCategoria" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                        <svg  href="#anterior" class = "numeroCategoria" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                </div>
+                <div class = "recomendacao">
+                 
+                </div>
             </footer>
         
         

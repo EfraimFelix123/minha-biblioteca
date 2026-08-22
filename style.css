@@ -5,8 +5,8 @@
     box-sizing: border-box;
     border: none;
     margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
     
 }
 
@@ -15,7 +15,8 @@
 {
     
     --bg-principal: #060911;
-    --bg-secundario: #0c0f1d;
+    --bg-secundario: #090c14;
+    --bg-terciario: #0c0e1d;
     --cor-destaque: #804ad1;
     --azul-roxo: #5a7aec;
     --cor-texto-principal: #FFFFFF;
@@ -35,6 +36,32 @@
     --font-logo: 20px;
 
 }
+html {
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--cor-texto-principal);
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+h4 {
+    font-size: 1.125rem;
+}
+
+p {
+    font-size: 1rem;
+    color:var(--cor-texto-secundario);
+}
+
 
 
 
@@ -42,34 +69,28 @@
 
 .layout-principal {
   display: flex;
-  height: 100vh; /* Ocupa 100% da altura da tela */
+  height: 100vh; 
   overflow: hidden;
 }
 
-/* ESTADO ABERTO DA GAVETA (Padrão) */
 .sidebar {
   width: 250px;
   background-color: #151720;
   color: white;
   padding: 20px;
   
-  /* Aqui está o truque de ouro: o transition faz qualquer mudança de largura ser animada e suave */
   transition: all 0.3s ease; 
-  
-  /* Fundamental para que os textos não quebrem de linha quando a barra for espremida */
   white-space: nowrap; 
   overflow: hidden; 
 }
 
-/* ESTADO FECHADO DA GAVETA (Classe controlada pelo JS) */
 .sidebar.recolhida {
   width: 0px;
-  padding: 0px; /* Zeramos o padding para ela sumir 100% */
+  padding: 0px; 
 }
 
-/* O conteúdo principal */
 .conteudo-site {
-  flex: 1; /* A regra "flex: 1" diz: Ocupe absolutamente todo o espaço que sobrar */
+  flex: 1; 
   background-color: #0B0D14;
   color: white;
   padding: 40px;
@@ -80,27 +101,64 @@
     display: flex;
     width: auto;
     border:1px solid var(--cor-borda);
-    padding: 20px;
+    padding: 30px;
+    overflow: hidden;
 }
-.icones{
+.icones, .iconesEspacos a{
     color: var(--cor-texto-secundario);
 }
 
-.iconesEspacos #open{
+ #open{
     display: none;
+}
+.iconesEspacos{
+    display: flex; align-items: center; justify-content: flex-start;
+    padding: 0;
 }
 
 
 .barraLateral.recolhida {
 
     width: auto;
-  padding: 10px; 
+  padding: 5px; 
+  
+}
+.barraLateral.recolhida #fundoSidebar{
+    margin-bottom: 30px;
 }
 
-.barraLateral.recolhida  a, .barraLateral.recolhida  > .tituloHeader, .barraLateral.recolhida p, .barraLateral.recolhida #fecharIcon{
+.barraLateral.recolhida  a, .barraLateral.recolhida  > .tituloHeader, .barraLateral.recolhida p{
 
     display: none;
     width: auto;
+}
+.barraLateral.recolhida .categorias {
+    display: none;
+}
+.categorias{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.iconesEspacos:hover{
+  
+}
+.numeroCategoria{
+       width: 24px;
+    height: 24px;
+    color: var(--cor-texto-secundario);
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background-color: var(--cor-borda);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barraLateral.recolhida #fecharIcon{
+    display: none;
 }
 .barraLateral.recolhida #open{
 
@@ -113,7 +171,11 @@
   
 }
 
+.cards{
+    display: flex;
+    flex-wrap: wrap
 
+}
 
 
 
@@ -122,10 +184,7 @@ html {
     background-color: rgb(92, 92, 92);
   
 }
-html h1, p
-{
-    color: rgb(215, 236, 255);
-}
+
 h1
 {
     font-size: 24px;
@@ -152,14 +211,22 @@ body {
 .conteudoSite{
     flex: 1;
     min-width: 0;
+    padding: 30px;
 }
 .iconesDiv{
     display: flex;
     flex-direction: column;
     gap: 35px;
-    padding: 10px;
-    margin-top: 30px;
+  
+    
     border-top:1px solid var(--cor-borda);
+}
+
+.barraLateral.recolhida .iconesDiv{
+ 
+    display: flex;
+    align-items: center;
+    padding: 0;
 }
 
 .iconesEspacos{
@@ -176,9 +243,9 @@ header
 {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    min-height: 80px;
+    align-items: flex-start;
+   
+    min-height: auto;
     min-width: 320px;
     background-color: var(--bg-principal);
    
@@ -209,18 +276,17 @@ main
 }
 .controlIcon{
    
-    width: 65px; 
-  height: 65px;
+    width: 50px; 
+  height: 50px;
    color: var(--azul-roxo);
 }
 .titulos
 { 
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
     background-color: var(--bg-principal);
-    
-    
-    
 }
 .jogado > .titulos >h1 {
     color: var(--verde);
@@ -238,53 +304,95 @@ main
 
 footer {
      display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px; 
-    padding: 0 20px;
+    flex-direction: column;
+   
+    
     min-width: 320px;
     background-color: var(--background1);
     align-content: flex-end;
     
 }
+.recomendacao{
+    display: flex;
+    gap: 5px;
+    overflow: hidden;
+}
+.recomendacao > .cartaoJogo{
+    display: flex;
+    height: 150px;
+    min-width: 150px;
+}
 
+.barraPesquisa{
+   
+    height: 35px;
+    width: 60%;
+    min-width: 320px;
+     position: relative;
+    display: flex;
+
+    align-items: center;
+     gap: 20px; justify-content: space-between; 
+    
+    
+}
+.barraPesquisa>svg{
+      position: absolute;
+    left: 12px;
+    width: 18px;
+    height: 18px;
+}
+.elementosBarraPesquisa{
+    color: var(--cor-texto-secundario);
+}
+.barraPesquisa > input, #botaoFiltrar{
+    background-color: var(--bg-secundario);
+    border:1px solid var(--cor-borda);
+}
+#botaoFiltrar{
+      background-color: var(--bg-secundario);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 80px;
+    height: 33px;
+    border-radius: 5px; flex: 1; 
+}
 .btn-estilizado {
     text-decoration: none; 
     border: none;
     background-color: transparent;
     color: white;
-    padding: 0.6em 1em;
+    padding: 0;
     font-size: 1rem;
     transition: transform 0.1s ease;
 }
 .adicionarJogos > .btn-mais{
     height: 130px;
 }
-.adicionarJogos {
-    display: flex; 
+
+#adicionarJogosBotao{
+       display: flex; 
     overflow-x: auto; 
     background-color: var(--bg-principal); 
     width: 100%; 
-    height: 200px; 
+    height: 100px; 
     min-width: 50%; 
     scroll-snap-type: x mandatory; 
-    
 }
 
 
 
-.adicionarJogos > button 
+#adicionarJogosBotao > button 
 {
 
-     background: var(--bg-secundario);
+     background: var(--bg-terciario);
     display: flex;
     justify-content: center;
    
     min-width: 256px;
     height: 100%;
     width: 100% ;
-    margin: 10px;
-    scroll-snap-align: start;
     border-radius: 16px;
 
 
@@ -297,7 +405,7 @@ footer {
     color:var(--cor-texto-secundario);
 }
 
-.adicionarJogos > button > div
+.adicionarJogos > button > div, #adicionarJogosBotao > button > div
 {
     display: flex;
     
@@ -432,9 +540,10 @@ footer {
     background-size: cover;
     background-position: center;
     min-width: 256px;
-    width: 33%;
-    height: 87%; 
-    margin: 10px;
+    width: auto;
+    flex: 1;
+    
+   
     border-radius: 8px; 
     overflow: hidden; 
     position: relative; 
@@ -449,15 +558,17 @@ footer {
     object-fit: cover;
 }
 
-.cartaoJogo .info-cartao {
+
+.info-cartao {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 30%;
-    padding: 5px;
-    
     transform: translate(-50, -50);
+}
+.botaoCartaoJogo{
+    display: flex;
+      width: calc(100% - 40px);
+  padding: 15px;
+    
 }
 
 .cartaoJogo h3 {
@@ -475,8 +586,7 @@ footer {
     font-size: 0.8rem;
 }
 .cartaoJogo button
-{
-    background: none;
+{  background: none; 
     width: 100%;
     height: 100%;
 }
@@ -488,12 +598,54 @@ footer {
 .tenhoInteresse .btn-mais {
     display: none;
 }
-
-.jogando, .abandonado, .jogado, .jogos
-{
-     padding-bottom: 30px;
+.jogando{
+  
 }
-.jogos{}
+
+.jogando, .abandonado, .jogado, .tenhoInteresse
+{
+    overflow: hidden;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    min-width: 50%;
+    max-width: 50%;
+      display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+}
+.jogando, .jogado{
+    padding-right: 20px;
+}
+.adicionarJogos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    overflow: hidden;
+    background-color: var(--bg-principal);
+    width: 100%;
+    height: 200px;
+}
+
+.adicionarJogos > .cartaoJogo:only-of-type {
+    grid-column: 1 / -1;
+}
+
+.adicionarJogos > .cartaoJogo:nth-of-type(n+3) {
+    display: none;
+}
+
+.cartaoJogo {
+    width: auto;
+    min-width: 0;
+}
+
+
+.jogos{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 /*JANELA DO CARTÃO DO JOGO */
 
 .exibirCartaoJogo{
@@ -628,9 +780,37 @@ footer {
     
     display: flex;
     width: 100%;
-
     
 }
-   
-
+}
+@media (max-width: 767px ){
+    .cards{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .jogando, .abandonado, .jogado, .tenhoInteresse
+{
+    overflow: hidden;
+    padding-bottom: 20px;
+    padding-top: 0px;
+    min-width: 100%;
+    max-width: 100%;
+      display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+}
+.jogado, .jogando{
+    padding-right: 0;
+}
+    .adicionarJogos{
+        height: 100px;
+    }
+    .barraPesquisa{
+        min-width: none;
+        width: 100%;
+    }
+    .cartaoJogo{
+        height: auto;
+    }
 }

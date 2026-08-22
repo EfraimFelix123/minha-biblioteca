@@ -3,7 +3,7 @@
 //FIREBASE
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc, where} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js"; 
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc, where, arrayUnion, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import {getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";   
 
 const firebaseConfig = {
@@ -19,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); 
 const auth = getAuth(app);
 const provedorGoogle = new GoogleAuthProvider();
+
 
 //constantes e valores
 const selectNumeros = document.querySelector(".numeros");
@@ -49,6 +50,19 @@ const barraLateral = document.querySelector(".barraLateral");
 const abrirBarra = document.getElementById("open");
 const logoHeader = document.getElementById("logoHeader");
 const tituloHeader = document.querySelector(".tituloHeader");
+const iconesDiv = document.querySelector(".iconesDiv");
+const logout = document.querySelector("#logout");
+const numeroJogando = document.querySelector(".numeroJogando");
+const numeroInteresse = document.querySelector(".numeroInteresse");
+const numeroJogado = document.querySelector(".numeroJogado");
+const numeroAbandonado = document.querySelector(".numeroAbandonado");
+const numeroJogandoTitulos = document.querySelector("#numeroJogandoTitulos");
+const numeroJogadoTitulos = document.querySelector("#numeroJogadoTitulos");
+const numeroAbandonadoTitulos = document.querySelector("#numeroAbandonadoTitulos");
+const numeroInteresseTitulos = document.querySelector("#numeroInteresseTitulos");
+const recomendacao = document.querySelector(".recomendacao");
+
+
 
 
 let salvouNumeros = false;
@@ -57,18 +71,24 @@ let modoJanela = janelaJogos.dataset.modo;
 let idTemporario;
 
 
+
 //biblioteca
 let biblioteca = [];
+let listaGeneros = [];
 let jogoSendoEditado;
 let usuarioAtualUID = null;
+
 
 
 //salvarJanela
     salvar.addEventListener("click", async function () {
         loading();
+        recomendar();
         if (modoJanela == "criar")
         {
+            
              let imagemJogo;
+             let generosDoJogo = [];
             if (inputTitulo.value.trim() === "")
             {
                 window.alert("preencha os dados ou cancele");
@@ -76,13 +96,14 @@ let usuarioAtualUID = null;
             }
 
             
-                try 
-                {
-                imagemJogo = await buscarCapaDoJogo(inputTitulo.value);
-                } catch (erro) {
-                    console.log(erro);
-                    
-                }
+            try {
+                const resultadoApi = await buscarCapaDoJogo(inputTitulo.value);
+                imagemJogo = resultadoApi.capa;
+                generosDoJogo = resultadoApi.generos;
+                console.log("genero do jogo mano mano: "+generosDoJogo);
+            } catch (erro) {
+                console.log(erro);
+            }
                 if (!imagemJogo) { imagemJogo = 'cinza.jpg';}
 
           
@@ -106,15 +127,21 @@ let usuarioAtualUID = null;
             }
 
             try {
-                // Comando que cria a coleção "jogos" e empurra o objeto para lá
+                
                 const adoc = await addDoc(collection(db, "jogos"), novoJogo);
                 console.log("Jogo salvo no Firebase com sucesso!");
                 novoJogo.id = adoc.id;
                 idTemporario = novoJogo.id;
-
-                
-            
                  biblioteca.push(novoJogo);
+
+                 if (usuarioAtualUID && generosDoJogo.length > 0) {
+                    const usuarioRef = doc(db, "usuarios", usuarioAtualUID);
+                    await setDoc(usuarioRef, {
+                        generosFavoritos: arrayUnion(...generosDoJogo)
+                    }, { merge: true });
+                    
+                    console.log("Gêneros adicionados ao perfil do usuário com sucesso!");
+                }
               
             } catch (erro) {
                 console.error("Erro ao tentar salvar no Firebase: ", erro);
@@ -123,11 +150,13 @@ let usuarioAtualUID = null;
           
           
            
-  
+  atualizaNumerosCategoria ();
         }
         else if (modoJanela == "editar")
         {
             jogoSendoEditado = biblioteca.find(jogo => jogo.id == idTemporario);
+            
+
 
 
             if(inputTitulo.value == "")
@@ -155,9 +184,14 @@ let usuarioAtualUID = null;
             console.log("nome do título KJDSADSKJ: "+biblioteca.find(jogo => jogo.id == idTemporario).titulo);
             fecharJanela();
             renderizarTela();
+            
+           atualizaNumerosCategoria ();
 
 
  
+    });
+    logout.addEventListener("click", ()=>{
+        logoutConta();
     });
 
     //LOGIN
@@ -194,7 +228,7 @@ function atualizarSite(){
         
        
         const usuario = resultado.user;
-        
+       
         console.log("Deu certo! O usuário logou.");
         console.log("Nome do Jogador:", usuario.displayName);
         console.log("A Identidade Única (UID):", usuario.uid);
@@ -207,41 +241,66 @@ function atualizarSite(){
 });
 
 btnSair.addEventListener("click", async (event) => {
-    try {
+  logoutConta();
+});
+
+async function logoutConta() {
+      try {
+        
         
         await signOut(auth);
         console.log("deslogou");
         atualizarSite();
-
+        atualizaNumerosCategoria ();
     } catch (error) {
         console.log(error);
     }
-});
+    
+}
 
 fecharBarra.addEventListener("click", () => {
+    atualizaNumerosCategoria ();
      barraLateral.classList.add('recolhida');
      tituloHeader.style.display = 'none';
      logoHeader.style.display = 'flex'; 
 });
 
 abrirBarra.addEventListener("click", () => {
+    atualizaNumerosCategoria ();
      barraLateral.classList.remove('recolhida');
      logoHeader.style.display = 'none'; 
      tituloHeader.style.display = 'flex';
 });
 
+ function atualizaNumerosCategoria (){
+     let valorJogando =jogando.querySelector(".adicionarJogos").children.length-1;
+      let valorJogado =jogado.querySelector(".adicionarJogos").children.length-1;
+        let valorInteresse =tenhoInteresse.querySelector(".adicionarJogos").children.length-1;
+          let valorAbandonado =abandonado.querySelector(".adicionarJogos").children.length-1;
+    numeroJogando.textContent = valorJogando;
+    numeroJogado.textContent = valorJogado;
+    numeroInteresse.textContent = valorInteresse;
+    numeroAbandonado.textContent = valorAbandonado;
+
+    numeroJogandoTitulos.textContent = valorJogando;
+    numeroJogadoTitulos.textContent = valorJogado;
+    numeroInteresseTitulos.textContent =valorInteresse;
+    numeroAbandonadoTitulos.textContent =valorAbandonado;
+}
    
 
     btnExcluir.addEventListener("click", function() {
     
         biblioteca = biblioteca.filter(jogo => jogo.id != idTemporario);
 
+        
+    
         excluirJogoNuvem()
 
         limpaValores();
-    
         fecharJanela();
         renderizarTela();
+        atualizaNumerosCategoria ();
 });
 
 function limpaValores()
@@ -319,6 +378,7 @@ async function carregarJogoNuvem()
     }
     
         renderizarTela();
+        atualizaNumerosCategoria ();
 
 }
 
@@ -332,17 +392,19 @@ async function carregarJogoNuvem()
 function renderizarTela()
 {
 
-   
+    recomendar();
     document.querySelectorAll(".cartaoJogo").forEach(cartao => cartao.remove());
     biblioteca.forEach(jogo => {
         
     let novoCartaoHTML = `
             <div class="cartaoJogo" data-id="${jogo.id}" style="background-image: url('${jogo.capa}');">
-                <button class="botaoCartaoJogo"></button>
+                <button class="botaoCartaoJogo">
+                
                 <div class="info-cartao">
                     <h3>${jogo.titulo}</h3>
-                    <span class="etiqueta-status">${jogo.status}</span>
+                  
                 </div>
+                </button>
             </div>
             `;
    
@@ -356,11 +418,12 @@ function renderizarTela()
         
       
         estanteDestino.insertAdjacentHTML("afterend", novoCartaoHTML); 
+        
 
     });
-     
 
 }
+
 
 function abrirInfo(idCartaoJogo)
 {
@@ -401,6 +464,8 @@ function modocriar()
     modoJanela = "criar";
     btnExcluir.style.display = 'none'
     console.log(modoJanela);
+    
+    
     janelaJogos.style.display = 'block';
     
 }
@@ -480,6 +545,47 @@ mais.addEventListener("click", function(){
 });
 
 //API TESTE
+ async function recomendar() {
+
+    if (!usuarioAtualUID) return;
+
+    try {        
+        const usuarioRef = doc(db, "usuarios", usuarioAtualUID);
+       const usuarioSnap = await getDoc(usuarioRef);
+
+        if(usuarioSnap.exists()){
+            const generosSalvos = usuarioSnap.data().generosFavoritos;
+            const GeneroAleatorio = generosSalvos[Math.floor(Math.random() * generosSalvos.length)];
+            const genero = GeneroAleatorio.toLowerCase();
+            const url = `https://api.rawg.io/api/games?genres=${genero}&metacritic=70,100&key=3509b61d91744100a25d2f0453af764e`;
+            const resposta = await fetch(url);
+            const dados = await resposta.json();
+            const dadosArray = dados.results;
+
+           
+            dadosArray.forEach(jogo => { 
+      let cardRecomendacao = `
+            <div id = "divRecomendados" class="cartaoJogo" data-id="${jogo.name}" style="background-image: url('${jogo.background_image}');">
+                <button class="botaoCartaoJogo">
+                
+                <div class="info-cartao">
+                    <h3>${jogo.metacritic}</h3>
+                </div>
+                </button>
+            </div>`;
+            recomendacao.insertAdjacentHTML("beforeend", cardRecomendacao);
+              });   
+     
+        }
+        
+
+        
+    } catch (error) {
+        console.log("deu erro mano: "+error);
+        
+        
+    }
+}
 async function buscarCapaDoJogo(nomeDoJogo) {
     const busca = nomeDoJogo.replace(" ", "%20");
     const urlDaApi = `https://api.rawg.io/api/games?search=${busca}&key=3509b61d91744100a25d2f0453af764e`;
@@ -492,18 +598,20 @@ async function buscarCapaDoJogo(nomeDoJogo) {
         
         if (jogoEncontrado) {
             const linkDaCapa = jogoEncontrado.background_image;
+            let nomesGeneros = jogoEncontrado.genres.map(genero => genero.name);
+
             console.log("Nome oficial: ", jogoEncontrado.name);
             console.log("Capa do jogo: ", linkDaCapa);
-            return linkDaCapa;
-
+            return {capa: linkDaCapa, generos: nomesGeneros};
         } else {
             console.log("Jogo não encontrado na RAWG.");
+            return { capa: null, generos: [] };
         }
 
     }catch (erro)
     {
         console.log(erro);
-
+        return { capa: null, generos: [] };
     }
         
 
