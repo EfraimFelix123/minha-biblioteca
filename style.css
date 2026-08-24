@@ -312,15 +312,18 @@ footer {
     align-content: flex-end;
     
 }
-.recomendacao{
+.recomendacao {
     display: flex;
-    gap: 5px;
+    flex-wrap: wrap;
+    gap: 10px;
+    height: 150px;
     overflow: hidden;
 }
-.recomendacao > .cartaoJogo{
-    display: flex;
+
+.recomendacao > .cartaoJogo {
     height: 150px;
     min-width: 150px;
+    flex: 1 1 150px;
 }
 
 .barraPesquisa{

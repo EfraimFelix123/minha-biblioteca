@@ -61,14 +61,17 @@ const numeroJogadoTitulos = document.querySelector("#numeroJogadoTitulos");
 const numeroAbandonadoTitulos = document.querySelector("#numeroAbandonadoTitulos");
 const numeroInteresseTitulos = document.querySelector("#numeroInteresseTitulos");
 const recomendacao = document.querySelector(".recomendacao");
-
-
-
+const proximaRecomenda = document.querySelector("#proximaRecomenda");
+const anteriorRecomenda = document.querySelector("#anteriorRecomenda");
+const footer = document.querySelector("#footer");
 
 let salvouNumeros = false;
 let salvoClicou = false;
 let modoJanela = janelaJogos.dataset.modo;
 let idTemporario;
+let quantidadeRecomenda = 0;
+let jogosRecomendadosGlobais = []; 
+
 
 
 
@@ -193,6 +196,17 @@ let usuarioAtualUID = null;
     logout.addEventListener("click", ()=>{
         logoutConta();
     });
+    proximaRecomenda.addEventListener("click", ()=>{
+        quantidadeRecomenda += 5;
+        const cardExcluido = footer.querySelector(".recomendacao");
+        renderizarMaisJogos();
+    });
+    anteriorRecomenda.addEventListener("click", ()=>{
+        quantidadeRecomenda -= 5;
+        const cardExcluido = footer.querySelector(".recomendacao");
+        renderizarMaisJogos();
+    });
+
 
     //LOGIN
     onAuthStateChanged(auth, (usuarioLogado) => {
@@ -545,45 +559,62 @@ mais.addEventListener("click", function(){
 });
 
 //API TESTE
- async function recomendar() {
-
+async function recomendar() {
     if (!usuarioAtualUID) return;
 
     try {        
         const usuarioRef = doc(db, "usuarios", usuarioAtualUID);
-       const usuarioSnap = await getDoc(usuarioRef);
-
-        if(usuarioSnap.exists()){
+        const usuarioSnap = await getDoc(usuarioRef);
+        
+        if (usuarioSnap.exists()) {
             const generosSalvos = usuarioSnap.data().generosFavoritos;
             const GeneroAleatorio = generosSalvos[Math.floor(Math.random() * generosSalvos.length)];
             const genero = GeneroAleatorio.toLowerCase();
-            const url = `https://api.rawg.io/api/games?genres=${genero}&metacritic=70,100&key=3509b61d91744100a25d2f0453af764e`;
+
+            const paginaAleatoria = Math.floor(Math.random() * 10) + 1;
+            const url = `https://api.rawg.io/api/games?genres=${genero}&metacritic=60,100&page=${paginaAleatoria}&key=3509b61d91744100a25d2f0453af764e`;
+            
             const resposta = await fetch(url);
             const dados = await resposta.json();
-            const dadosArray = dados.results;
-
-           
-            dadosArray.forEach(jogo => { 
-      let cardRecomendacao = `
-            <div id = "divRecomendados" class="cartaoJogo" data-id="${jogo.name}" style="background-image: url('${jogo.background_image}');">
-                <button class="botaoCartaoJogo">
-                
-                <div class="info-cartao">
-                    <h3>${jogo.metacritic}</h3>
-                </div>
-                </button>
-            </div>`;
-            recomendacao.insertAdjacentHTML("beforeend", cardRecomendacao);
-              });   
-     
+            
+            jogosRecomendadosGlobais = dados.results;
+            
+            quantidadeRecomenda = 0;
+            renderizarMaisJogos();
         }
         
-
-        
     } catch (error) {
-        console.log("deu erro mano: "+error);
-        
-        
+        console.log("deu erro mano: " + error);
+    }
+}
+function renderizarMaisJogos() {
+    const cardsAntigos = recomendacao.querySelectorAll('.cartaoJogo');
+    cardsAntigos.forEach(card => card.remove());
+    const jogosParaExibir = jogosRecomendadosGlobais.slice(quantidadeRecomenda, quantidadeRecomenda + 5);
+    
+    jogosParaExibir.forEach(jogo => { 
+        let cardRecomendacao = `
+            <div class="cartaoJogo" data-id="${jogo.name}" style="background-image: url('${jogo.background_image}');">
+                <button class="botaoCartaoJogo">
+                    <div class="info-cartao">
+                        <h3>${jogo.metacritic}</h3>
+                    </div>
+                </button>
+            </div>`;
+            
+        recomendacao.insertAdjacentHTML("beforeend", cardRecomendacao);
+    });   
+    
+    if (quantidadeRecomenda + 5 >= jogosRecomendadosGlobais.length) {
+        proximaRecomenda.style.display = 'none';
+    } else {
+        proximaRecomenda.style.display = 'block';
+    }
+
+    if (quantidadeRecomenda <= 0) {
+        recomendaAnterior.style.display = 'none';
+    } else {
+        recomendaAnterior.style.display = 'inline-block';
     }
 }
 async function buscarCapaDoJogo(nomeDoJogo) {
