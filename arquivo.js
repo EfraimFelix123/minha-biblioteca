@@ -71,6 +71,7 @@ let modoJanela = janelaJogos.dataset.modo;
 let idTemporario;
 let quantidadeRecomenda = 0;
 let jogosRecomendadosGlobais = []; 
+let quantidade;
 
 
 
@@ -197,15 +198,25 @@ let usuarioAtualUID = null;
         logoutConta();
     });
     proximaRecomenda.addEventListener("click", ()=>{
-        quantidadeRecomenda += 5;
-        const cardExcluido = footer.querySelector(".recomendacao");
-        renderizarMaisJogos();
+        
+        quantidadeCards();
+        quantidadeRecomenda += quantidade;
+        console.log("cards: "+quantidadeRecomenda);
+        
+        if (quantidadeRecomenda>=20) {quantidadeRecomenda=19; return}
+        renderizarMaisJogos();       
     });
     anteriorRecomenda.addEventListener("click", ()=>{
-        quantidadeRecomenda -= 5;
-        const cardExcluido = footer.querySelector(".recomendacao");
+        quantidadeRecomenda -= quantidade;
+         console.log("cards: "+quantidadeRecomenda);
+        if (quantidadeRecomenda<0) {quantidadeRecomenda=0; return}
         renderizarMaisJogos();
     });
+    function quantidadeCards(){
+        let larguraContainer = recomendacao.clientWidth;
+        const larguraCard = 150;
+        quantidade = Math.floor(larguraContainer / larguraCard);
+    }
 
 
     //LOGIN
@@ -407,6 +418,7 @@ function renderizarTela()
 {
 
     recomendar();
+    quantidadeCards();
     document.querySelectorAll(".cartaoJogo").forEach(cartao => cartao.remove());
     biblioteca.forEach(jogo => {
         
@@ -572,7 +584,7 @@ async function recomendar() {
             const genero = GeneroAleatorio.toLowerCase();
 
             const paginaAleatoria = Math.floor(Math.random() * 10) + 1;
-            const url = `https://api.rawg.io/api/games?genres=${genero}&metacritic=60,100&page=${paginaAleatoria}&key=3509b61d91744100a25d2f0453af764e`;
+            const url = `https://api.rawg.io/api/games?genres=${genero}&metacritic=70,100&page=${paginaAleatoria}&key=3509b61d91744100a25d2f0453af764e`;
             
             const resposta = await fetch(url);
             const dados = await resposta.json();
@@ -588,9 +600,11 @@ async function recomendar() {
     }
 }
 function renderizarMaisJogos() {
+    try {
+        
     const cardsAntigos = recomendacao.querySelectorAll('.cartaoJogo');
     cardsAntigos.forEach(card => card.remove());
-    const jogosParaExibir = jogosRecomendadosGlobais.slice(quantidadeRecomenda, quantidadeRecomenda + 5);
+    const jogosParaExibir = jogosRecomendadosGlobais.slice(quantidadeRecomenda, quantidadeRecomenda + quantidade);
     
     jogosParaExibir.forEach(jogo => { 
         let cardRecomendacao = `
@@ -605,16 +619,11 @@ function renderizarMaisJogos() {
         recomendacao.insertAdjacentHTML("beforeend", cardRecomendacao);
     });   
     
-    if (quantidadeRecomenda + 5 >= jogosRecomendadosGlobais.length) {
-        proximaRecomenda.style.display = 'none';
-    } else {
-        proximaRecomenda.style.display = 'block';
-    }
 
-    if (quantidadeRecomenda <= 0) {
-        recomendaAnterior.style.display = 'none';
-    } else {
-        recomendaAnterior.style.display = 'inline-block';
+        
+    } catch (error) {
+        recomendar();
+        console.log("Erro ao recomendar jogos: "+error);
     }
 }
 async function buscarCapaDoJogo(nomeDoJogo) {
