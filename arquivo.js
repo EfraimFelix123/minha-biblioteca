@@ -214,7 +214,7 @@ let usuarioAtualUID = null;
     });
     function quantidadeCards(){
         let larguraContainer = recomendacao.clientWidth;
-        const larguraCard = 150;
+        const larguraCard = 180;
         quantidade = Math.floor(larguraContainer / larguraCard);
     }
 
@@ -377,7 +377,7 @@ async function carregarJogoNuvem()
         const consultaOrdenada = query(collection(db, "jogos"), 
         where("donoJogo", "==", usuarioAtualUID),
         orderBy("dataCriacao", "asc"))
-        const fds = await getDocs(consultaOrdenada); 
+        const fds = await getDocs(consultaOrdenada);
 
         fds.forEach(firejogo => {
             const jogoNuvem = {
@@ -515,6 +515,11 @@ function modoEditar()
 
 fecharJanela()
 
+function abrirInfoRecomendados(idJogoRecomendado){
+     const jogoClicadoRecomendado = jogosRecomendadosGlobais.find(jogo => jogo.name == idCartaoJogo);
+
+    console.log("card do recomendados abriu. Id dele: "+ idJogoRecomendado + jogoClicadoRecomendado.name);
+}
 //DELEGAÇÕES
 document.addEventListener("click", (event) => {
     const btnSalvarECJ = document.querySelector(".btnSalvarECJ");
@@ -522,12 +527,17 @@ document.addEventListener("click", (event) => {
     const selectNumeros = document.getElementById("numerosJECJ");
     const descricaoInputECJ = document.getElementById("descricaoInputECJ");
     const cartao = event.target.closest(".cartaoJogo");
+     const cartaoRecomendado = event.target.closest(".botaoCartaoJogo");
 
     if (cartao) 
     {
        idTemporario = cartao.dataset.id;
        abrirInfo(idTemporario);
        
+    }
+    if(cartaoRecomendado){
+         idTemporario = cartao.dataset.id;
+         abrirInfoRecomendados(idTemporario);
     }
 
 
@@ -584,7 +594,7 @@ async function recomendar() {
             const genero = GeneroAleatorio.toLowerCase();
 
             const paginaAleatoria = Math.floor(Math.random() * 10) + 1;
-            const url = `https://api.rawg.io/api/games?genres=${genero}&metacritic=70,100&page=${paginaAleatoria}&key=3509b61d91744100a25d2f0453af764e`;
+            const url = `https://api.rawg.io/api/games?genres=${genero}&metacritic=80,100&page=${paginaAleatoria}&key=3509b61d91744100a25d2f0453af764e`;
             
             const resposta = await fetch(url);
             const dados = await resposta.json();
@@ -611,7 +621,7 @@ function renderizarMaisJogos() {
             <div class="cartaoJogo" data-id="${jogo.name}" style="background-image: url('${jogo.background_image}');">
                 <button class="botaoCartaoJogo">
                     <div class="info-cartao">
-                        <h3>${jogo.metacritic}</h3>
+                        <h3 style = "font-size: 10px">${jogo.name}</h3>
                     </div>
                 </button>
             </div>`;

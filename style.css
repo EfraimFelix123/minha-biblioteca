@@ -7,6 +7,7 @@
     margin: 0;
     padding: 0;    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 400;
+    transition: all 1s ease; 
     
 }
 
@@ -310,6 +311,7 @@ footer {
     min-width: 320px;
     background-color: var(--background1);
     align-content: flex-end;
+    gap: 15px;
     
 }
 .recomendacao {
@@ -467,14 +469,54 @@ footer {
     
     
 }
+.exibeRecomendados{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #1c9e60;
+    gap: 10px;
+    width: min-content;
+}
+
+.headerBody{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.headeRecomendados{
+    display: flex;
+    justify-content: space-between;
+}
+.bodyRecomendados{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+}
+.infoRecomendados{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+    height: auto;
+    flex: 1;
+}
+.infoBodyRecomendados >p{
+    font-size: 10px;
+}
 
 
 .capaJogo
 {
     width: 30%;
-   
+}
+#capaJogoRecomendados{
+    height: 250px;
+    min-width: 150px;
     
 }
+
 .janelaAdicionar h2
 {
     display: flex;
@@ -787,6 +829,8 @@ footer {
 }
 }
 @media (max-width: 767px ){
+   
+    
     .cards{
         display: flex;
         flex-wrap: wrap;
@@ -809,6 +853,12 @@ footer {
     .adicionarJogos{
         height: 100px;
     }
+    .recomendacao {
+        height: 100px;
+    }
+    .recomendacao > .cartaoJogo {
+    height: 100%;
+}
     .barraPesquisa{
         min-width: none;
         width: 100%;
