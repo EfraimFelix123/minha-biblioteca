@@ -428,7 +428,7 @@ function renderizarTela()
                 
                 <div class="info-cartao">
                     <h3>${jogo.titulo}</h3>
-                  
+                
                 </div>
                 </button>
             </div>
@@ -515,10 +515,29 @@ function modoEditar()
 
 fecharJanela()
 
-function abrirInfoRecomendados(idJogoRecomendado){
-     const jogoClicadoRecomendado = jogosRecomendadosGlobais.find(jogo => jogo.name == idCartaoJogo);
+async function abrirInfoRecomendados(idJogoRecomendado){
+    try {
+        
+        const jogoClicadoRecomendado = jogosRecomendadosGlobais.find(jogo => jogo.name == idJogoRecomendado);
+        const idOficial = jogoClicadoRecomendado.id;
+        const urlDaApi = `https://api.rawg.io/api/games/${idOficial}?key=3509b61d91744100a25d2f0453af764e`;
+        const resposta = await fetch(urlDaApi);
+        const dados = await resposta.json();
+        const sinopseCompleta = dados.description_raw;
 
-    console.log("card do recomendados abriu. Id dele: "+ idJogoRecomendado + jogoClicadoRecomendado.name);
+        const exibeRecomendados = document.querySelector(".exibeRecomendados");
+        const capaJogoRecomendados = exibeRecomendados.querySelector(".capaJogo");
+        const bodyRecomendados = exibeRecomendados.querySelector(".bodyRecomendados");
+        capaJogoRecomendados.src = jogoClicadoRecomendado.background_image;  
+        bodyRecomendados.querySelector("#tituloBodyRecomendados").textContent = jogoClicadoRecomendado.name;
+        bodyRecomendados.querySelector("#plataformaBodyRecomendados").textContent = jogoClicadoRecomendado.parent_platforms.map(item => item.platform.name);
+
+        bodyRecomendados.querySelector("#generoBodyRecomendados").textContent = jogoClicadoRecomendado.genres.map(genero => genero.name).join(", ");
+        bodyRecomendados.querySelector("#descricaoBodyRecomendados").textContent = sinopseCompleta;
+        
+    } catch (error) {
+        console.log(error);
+    }
 }
 //DELEGAÇÕES
 document.addEventListener("click", (event) => {

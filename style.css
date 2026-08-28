@@ -474,10 +474,30 @@ footer {
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
-    background-color: #1c9e60;
+    background-color: var(--bg-terciario);
+    border-radius: 16px;
+    border: 1px solid var(--cor-borda);
     gap: 10px;
     width: min-content;
 }
+.exibeRecomendados h1{
+    font-size: 12px;
+}
+#plataformaBodyRecomendados, #generoBodyRecomendados, #escricaoBodyRecomendados, #tituloBodyRecomendados{
+
+    border-radius: 5px;
+    padding: 8px;
+    border: 1px solid var(--cor-borda);
+}
+#capaJogoRecomendados{
+    height: 250px;
+    min-width: 180px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    object-fit: cover;
+    
+}
+
 
 .headerBody{
     display: flex;
@@ -510,11 +530,6 @@ footer {
 .capaJogo
 {
     width: 30%;
-}
-#capaJogoRecomendados{
-    height: 250px;
-    min-width: 150px;
-    
 }
 
 .janelaAdicionar h2
