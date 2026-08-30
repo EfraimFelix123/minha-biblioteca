@@ -452,9 +452,7 @@ footer {
     box-shadow: 0 0 0 100vmax rgba(62, 61, 61, 0.8);
     z-index: 999;
     flex-direction: column;
-    border: 0;
-  
-    
+    border: 0;  
     background-color: var(--azul-roxo);
        
 }
@@ -470,18 +468,48 @@ footer {
     
 }
 .exibeRecomendados{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
+ padding: 20px;
+    max-height: 500px;
     background-color: var(--bg-terciario);
     border-radius: 16px;
     border: 1px solid var(--cor-borda);
-    gap: 10px;
-    width: min-content;
+    width: 70vw;
+    height: 70vw;
+    max-width: 767px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,  -50%);
+    position: fixed;
+    z-index: 999;
+    overflow: hidden;
 }
 .exibeRecomendados h1{
     font-size: 12px;
+}
+.exibeRecomendadosConteudo{
+ display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+.FooterRecomendados{
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    flex-shrink: 0;   
+}
+
+#DescricaoRecomendados{
+display: flex;
+    flex-direction: column;
+    flex: 1; 
+    overflow-y: auto; 
+    margin-bottom: 10px; 
+    padding-right: 10px;
+
+}
+#descricaoBodyRecomendados{
+margin: 0;
 }
 #plataformaBodyRecomendados, #generoBodyRecomendados, #escricaoBodyRecomendados, #tituloBodyRecomendados{
 
@@ -490,8 +518,6 @@ footer {
     border: 1px solid var(--cor-borda);
 }
 #capaJogoRecomendados{
-    height: 250px;
-    min-width: 180px;
     border-radius: 8px;
     border: 1px solid var(--cor-borda);
     object-fit: cover;
@@ -500,27 +526,28 @@ footer {
 
 
 .headerBody{
-    display: flex;
+  display: flex;
     flex-direction: column;
-    gap: 10px;
+    flex: 1;
+    overflow: hidden;
 }
 .headeRecomendados{
     display: flex;
     justify-content: space-between;
 }
 .bodyRecomendados{
-    display: flex;
-    justify-content: space-between;
+    display: flex;  
     gap: 10px;
 
 }
 .infoRecomendados{
-    display: flex;
-    flex-direction: column;
+     display: grid;
+    grid-template-columns: repeat(2, minmax(50%, 1fr));
     gap: 10px;
-    min-width: 200px;
+    width: auto;
     height: auto;
     flex: 1;
+
 }
 .infoBodyRecomendados >p{
     font-size: 10px;
@@ -843,7 +870,21 @@ footer {
     
 }
 }
+@media(max-width: 590px){
+
+        .exibeRecomendados{}
+    .infoRecomendados{
+       
+    }
+    #capaJogoRecomendados{
+
+    }
+    #descricaoBodyRecomendados{
+        height: 10%;
+    }
+}
 @media (max-width: 767px ){
+
    
     
     .cards{

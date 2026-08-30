@@ -64,6 +64,11 @@ const recomendacao = document.querySelector(".recomendacao");
 const proximaRecomenda = document.querySelector("#proximaRecomenda");
 const anteriorRecomenda = document.querySelector("#anteriorRecomenda");
 const footer = document.querySelector("#footer");
+const cardRecomendacao = document.querySelector(".cardRecomendacao");
+const headeRecomendados = document.querySelector(".headeRecomendados");
+const exibeRecomendados = document.querySelector(".exibeRecomendados");
+const xisRecomendado = document.querySelector("#xisRecomendado");
+const bodyRecomendados = document.querySelector(".bodyRecomendados");
 
 let salvouNumeros = false;
 let salvoClicou = false;
@@ -194,6 +199,22 @@ let usuarioAtualUID = null;
 
  
     });
+    xisRecomendado.addEventListener("click", ()=>{
+        
+          exibeRecomendados.style.display= 'none';
+          
+        const capaJogoRecomendados = exibeRecomendados.querySelector(".capaJogo");
+        capaJogoRecomendados.src = 'cinza.jpg';
+        headeRecomendados.firstElementChild.textContent = 'Carregando...';
+          bodyRecomendados.querySelector("#tituloBodyRecomendados").textContent = '';
+        bodyRecomendados.querySelector("#lancamentoBodyRecomendados").textContent = '';
+        bodyRecomendados.querySelector("#horasBodyRecomendados").textContent = '';
+        bodyRecomendados.querySelector("#plataformaBodyRecomendados").textContent = '';
+
+        bodyRecomendados.querySelector("#generoBodyRecomendados").textContent = '';
+        document.querySelector("#descricaoBodyRecomendados").textContent = '';
+          
+    });
     logout.addEventListener("click", ()=>{
         logoutConta();
     });
@@ -227,6 +248,9 @@ let usuarioAtualUID = null;
         btnLoginGoogle.textContent = "Conta";
         btnSair.style.display = 'inline'; 
           main.style.display = 'inline';
+          exibeRecomendados.style.display= 'none';
+         
+          
         usuarioAtualUID = usuarioLogado.uid;
         carregarJogoNuvem()
     } else {
@@ -499,8 +523,6 @@ function modocriar()
 function modoEditar()
 {
     const procurarfds = biblioteca.find(jogo => jogo.id == idTemporario);
-
-        
         imag.src = procurarfds.capa;
 
    
@@ -518,6 +540,7 @@ fecharJanela()
 async function abrirInfoRecomendados(idJogoRecomendado){
     try {
         
+          exibeRecomendados.style.display= 'block';
         const jogoClicadoRecomendado = jogosRecomendadosGlobais.find(jogo => jogo.name == idJogoRecomendado);
         const idOficial = jogoClicadoRecomendado.id;
         const urlDaApi = `https://api.rawg.io/api/games/${idOficial}?key=3509b61d91744100a25d2f0453af764e`;
@@ -525,15 +548,18 @@ async function abrirInfoRecomendados(idJogoRecomendado){
         const dados = await resposta.json();
         const sinopseCompleta = dados.description_raw;
 
-        const exibeRecomendados = document.querySelector(".exibeRecomendados");
         const capaJogoRecomendados = exibeRecomendados.querySelector(".capaJogo");
         const bodyRecomendados = exibeRecomendados.querySelector(".bodyRecomendados");
         capaJogoRecomendados.src = jogoClicadoRecomendado.background_image;  
         bodyRecomendados.querySelector("#tituloBodyRecomendados").textContent = jogoClicadoRecomendado.name;
-        bodyRecomendados.querySelector("#plataformaBodyRecomendados").textContent = jogoClicadoRecomendado.parent_platforms.map(item => item.platform.name);
+        
+        headeRecomendados.firstElementChild.textContent = jogoClicadoRecomendado.name;
+        bodyRecomendados.querySelector("#lancamentoBodyRecomendados").textContent = jogoClicadoRecomendado.released;
+        bodyRecomendados.querySelector("#horasBodyRecomendados").textContent = jogoClicadoRecomendado.playtime;
+        bodyRecomendados.querySelector("#plataformaBodyRecomendados").textContent = jogoClicadoRecomendado.parent_platforms.map(item => item.platform.name).join(", ");
 
         bodyRecomendados.querySelector("#generoBodyRecomendados").textContent = jogoClicadoRecomendado.genres.map(genero => genero.name).join(", ");
-        bodyRecomendados.querySelector("#descricaoBodyRecomendados").textContent = sinopseCompleta;
+        document.querySelector("#descricaoBodyRecomendados").textContent = sinopseCompleta;
         
     } catch (error) {
         console.log(error);
@@ -557,6 +583,7 @@ document.addEventListener("click", (event) => {
     if(cartaoRecomendado){
          idTemporario = cartao.dataset.id;
          abrirInfoRecomendados(idTemporario);
+         
     }
 
 
@@ -646,6 +673,8 @@ function renderizarMaisJogos() {
             </div>`;
             
         recomendacao.insertAdjacentHTML("beforeend", cardRecomendacao);
+
+            
     });   
     
 
